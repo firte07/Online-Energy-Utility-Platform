@@ -6,6 +6,8 @@ import org.hibernate.annotations.Type;
 import javax.persistence.*;
 import javax.persistence.Entity;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -17,7 +19,7 @@ public class Person  implements Serializable{
     @GeneratedValue(generator = "uuid2")
     @GenericGenerator(name = "uuid2", strategy = "uuid2")
     @Type(type = "uuid-binary")
-    private UUID id;
+    private UUID id_person;
 
     @Column(name = "name", nullable = false)
     private String name;
@@ -27,6 +29,18 @@ public class Person  implements Serializable{
 
     @Column(name = "age", nullable = false)
     private int age;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "id_credential", referencedColumnName = "id_credential")
+    private User user;
+
+    @ManyToMany
+    @JoinTable(
+            name = "person_device",
+            joinColumns = @JoinColumn(name = "person_id", referencedColumnName = "id_person"),
+            inverseJoinColumns = @JoinColumn(name = "device_id", referencedColumnName = "id_device")
+    )
+    private List<Device> devices = new ArrayList<>();
 
 
     public Person() {
@@ -39,11 +53,11 @@ public class Person  implements Serializable{
     }
 
     public UUID getId() {
-        return id;
+        return id_person;
     }
 
     public void setId(UUID id) {
-        this.id = id;
+        this.id_person = id;
     }
 
     public String getName() {
@@ -69,4 +83,20 @@ public class Person  implements Serializable{
     public void setAge(int age) {
         this.age = age;
     }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+   public List<Device> getDevices() {
+        return devices;
+   }
+
+   public void setDevices(List<Device> devices) {
+        this.devices = devices;
+   }
 }
