@@ -16,7 +16,10 @@ public class Monitoring implements Serializable{
     private static final long serialVersionUID = 1L;
 
     @Id
-    private String id_monitoring;
+    @GeneratedValue(generator = "uuid2")
+    @GenericGenerator(name = "uuid2", strategy = "uuid2")
+    @Type(type = "uuid-binary")
+    private UUID id_monitoring;
 
     @Column(name = "timestamp")
     private LocalDateTime temp;
@@ -35,11 +38,11 @@ public class Monitoring implements Serializable{
         this.value = value;
     }
 
-    public String getId_monitoring() {
+    public UUID getId_monitoring() {
         return id_monitoring;
     }
 
-    public void setId_monitoring(String id_monitoring) {
+    public void setId_monitoring(UUID id_monitoring) {
         this.id_monitoring = id_monitoring;
     }
 

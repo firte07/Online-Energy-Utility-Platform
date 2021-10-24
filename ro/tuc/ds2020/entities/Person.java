@@ -32,7 +32,7 @@ public class Person  implements Serializable{
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "id_credential", referencedColumnName = "id_credential")
-    private User user;
+    private Credential credential;
 
     @ManyToMany
     @JoinTable(
@@ -84,12 +84,12 @@ public class Person  implements Serializable{
         this.age = age;
     }
 
-    public User getUser() {
-        return user;
+    public Credential getCredential() {
+        return credential;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setCredential(Credential credential) {
+        this.credential = credential;
     }
 
    public List<Device> getDevices() {

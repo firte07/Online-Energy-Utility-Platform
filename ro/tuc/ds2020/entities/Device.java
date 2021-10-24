@@ -17,7 +17,10 @@ public class Device implements Serializable{
     private static final long serialVersionUID = 1L;
 
     @Id
-    private String id_device;
+    @GeneratedValue(generator = "uuid2")
+    @GenericGenerator(name = "uuid2", strategy = "uuid2")
+    @Type(type = "uuid-binary")
+    private UUID id_device;
 
     @Column(name = "description")
     private String description;
@@ -40,18 +43,18 @@ public class Device implements Serializable{
     public Device(){
     }
 
-    public Device(String description, String location, int maxEnergy, int maxEnergy1) {
+    public Device(String description, String location, int maxEnergy, float averageConsumption) {
         this.description = description;
         this.location = location;
         this.maxEnergy = maxEnergy;
-        this.maxEnergy = maxEnergy1;
+        this.averageConsumption = averageConsumption;
     }
 
-    public String getId_device() {
+    public UUID getId_device() {
         return id_device;
     }
 
-    public void setId_device(String id_device) {
+    public void setId_device(UUID id_device) {
         this.id_device = id_device;
     }
 

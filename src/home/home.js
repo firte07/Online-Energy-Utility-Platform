@@ -1,44 +1,73 @@
 import React from 'react';
-
-import BackgroundImg from '../commons/images/future-medicine.jpg';
-
-import {Button, Container, Jumbotron} from 'reactstrap';
-
-const backgroundStyle = {
-    backgroundPosition: 'center',
-    backgroundSize: 'cover',
-    backgroundRepeat: 'no-repeat',
-    width: "100%",
-    height: "1920px",
-    backgroundImage: `url(${BackgroundImg})`
-};
-const textStyle = {color: 'white', };
+import { useHistory } from 'react-router-dom';
 
 class Home extends React.Component {
 
+    routeChange=()=> {
+        let path = '/dashboard';
+        let history = useHistory();
+        history.push(path);
+    }
+
+        /*// ENDPOINT-ul din spring la care facem requestul
+        const url = `/login/process/${email}`;
+
+        // Executia requestului
+        fetch(url, {
+            method: "get",
+            headers: {
+                Accept: "application/json, text/plain, *!/!*",
+                "Content-Type": "application/json",
+            },
+        })
+            .then((res) => res.json()) // Primul request returnat de back end pe care il transformam in json
+            .then((res) => {
+                if (res.password === password && res.email === email) { // verificam daca corespunde back-end cu front-end
+                    // pentru ca nu facem tot timpul acest request salvam loginul userului in localStorage de unde il putem prelua
+                    localStorage.setItem("user", JSON.stringify(res));
+                    // trimitem la endpointul de dashboard datele userului provenite de la backend
+                    history.push({
+                        pathname: "/dashboard",
+                        user: res,
+                    });
+
+                } else {
+                    setStateLogin(false); // daca nu corespund setam variabila de stare a aplicatiei ca esuata
+                }
+
+            });
+    };*/
 
     render() {
 
         return (
 
-            <div>
-                <Jumbotron fluid style={backgroundStyle}>
-                    <Container fluid>
-                        <h1 className="display-3" style={textStyle}>Integrated Medical Monitoring Platform for Home-care assistance</h1>
-                        <p className="lead" style={textStyle}> <b>Enabling real time monitoring of patients, remote-assisted care services and
-                            smart intake mechanism for prescribed medication.</b> </p>
-                        <hr className="my-2"/>
-                        <p  style={textStyle}> <b>This assignment represents the first module of the distributed software system "Integrated
-                            Medical Monitoring Platform for Home-care assistance that represents the final project
-                            for the Distributed Systems course. </b> </p>
-                        <p className="lead">
-                            <Button color="primary" onClick={() => window.open('http://coned.utcluj.ro/~salomie/DS_Lic/')}>Learn
-                                More</Button>
-                        </p>
-                    </Container>
-                </Jumbotron>
+            <form>
+                <h3>Sign In</h3>
 
-            </div>
+                <div className="form-group">
+                    <label>Username</label>
+                    <input type="username" className="form-control" placeholder="Enter username" />
+                </div>
+
+                <div className="form-group">
+                    <label>Password</label>
+                    <input type="password" className="form-control" placeholder="Enter password" />
+                </div>
+
+                <div className="form-group">
+                    <div className="custom-control custom-checkbox">
+                        <input type="checkbox" className="custom-control-input" id="customCheck1" />
+                        <label className="custom-control-label" htmlFor="customCheck1">Remember me</label>
+                    </div>
+                </div>
+
+                <button type="submit" className="btn btn-primary btn-block" onClick={this.routeChange}>Submit</button>
+
+                {/*<p className="forgot-password text-right">
+                    Forgot <a href="#">password?</a>
+                </p>*/}
+            </form>
         )
     };
 }

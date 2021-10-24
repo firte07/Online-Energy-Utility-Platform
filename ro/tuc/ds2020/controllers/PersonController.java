@@ -1,6 +1,7 @@
 package ro.tuc.ds2020.controllers;
 
 
+import jdk.nashorn.internal.ir.RuntimeNode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.Link;
 import org.springframework.http.HttpStatus;
@@ -8,7 +9,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ro.tuc.ds2020.dtos.PersonDTO;
 import ro.tuc.ds2020.dtos.PersonDetailsDTO;
-import ro.tuc.ds2020.entities.Person;
 import ro.tuc.ds2020.services.PersonService;
 
 import javax.validation.Valid;
@@ -53,6 +53,18 @@ public class PersonController {
         return new ResponseEntity<>(dto, HttpStatus.OK);
     }
 
-    //TODO: UPDATE, DELETE per resource
+    /*@RequestMapping(method = RequestMethod.PUT, value = "/{id}")
+    public void updateAddress(@PathVariable("id") UUID personId, @RequestBody String newAddress){
+        personService.updateAddress(personId, newAddress);
+    }*/
 
+    @RequestMapping(method = RequestMethod.PUT, value = "/{id}")
+    public void updateNameById(@PathVariable("id") UUID personId, @RequestBody String newName){
+        personService.updateNameById(personId, newName);
+    }
+
+    @RequestMapping(method = RequestMethod.DELETE, value = "/{id}")
+    public void deletePerson(@PathVariable("id") UUID personId){
+        personService.deletePersonById(personId);
+    }
 }

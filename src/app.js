@@ -6,6 +6,7 @@ import PersonContainer from './person/person-container'
 
 import ErrorPage from './commons/errorhandling/error-page';
 import styles from './commons/styles/project-style.css';
+import Dashboard from "./commons/dashboard/dashboard";
 
 class App extends React.Component {
 
@@ -23,6 +24,12 @@ class App extends React.Component {
                             exact
                             path='/'
                             render={() => <Home/>}
+                        />
+
+                        <Route
+                            exact
+                            path='/dashboard'
+                            render={() => <Dashboard/>}
                         />
 
                         <Route

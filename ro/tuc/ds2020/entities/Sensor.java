@@ -16,7 +16,10 @@ public class Sensor implements Serializable{
     private static final long serialVersionUID = 1L;
 
     @Id
-    private String id_sensor;
+    @GeneratedValue(generator = "uuid2")
+    @GenericGenerator(name = "uuid2", strategy = "uuid2")
+    @Type(type = "uuid-binary")
+    private UUID id_sensor;
 
     @Column(name = "description")
     private String description;
@@ -33,16 +36,16 @@ public class Sensor implements Serializable{
 
     public Sensor(){}
 
-    public Sensor(String description, int maxValue, int maxEnergy) {
+    public Sensor(String description, int maxValue) {
         this.description = description;
         this.maxValue = maxValue;
     }
 
-    public String getId_sensor() {
+    public UUID getId_sensor() {
         return id_sensor;
     }
 
-    public void setId_sensor(String id_sensor) {
+    public void setId_sensor(UUID id_sensor) {
         this.id_sensor = id_sensor;
     }
 
