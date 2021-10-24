@@ -6,7 +6,8 @@ import PersonContainer from './person/person-container'
 
 import ErrorPage from './commons/errorhandling/error-page';
 import styles from './commons/styles/project-style.css';
-import Dashboard from "./commons/dashboard/dashboard";
+import Dashboard from "./dashboard/dashboard";
+import UpdatePerson from "./person/components/update-person";
 
 class App extends React.Component {
 
@@ -30,6 +31,18 @@ class App extends React.Component {
                             exact
                             path='/dashboard'
                             render={() => <Dashboard/>}
+                        />
+
+                        <Route
+                            exact
+                            path='/dashboard/person'
+                            render={() => <PersonContainer/>}
+                        />
+
+                        <Route
+                            exact
+                            path='/dashboard/update-person/:id'
+                            render={() => <UpdatePerson/>}
                         />
 
                         <Route

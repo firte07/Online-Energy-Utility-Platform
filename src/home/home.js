@@ -1,13 +1,10 @@
 import React from 'react';
 import { useHistory } from 'react-router-dom';
+import {NavLink} from "reactstrap";
 
 class Home extends React.Component {
 
-    routeChange=()=> {
-        let path = '/dashboard';
-        let history = useHistory();
-        history.push(path);
-    }
+
 
         /*// ENDPOINT-ul din spring la care facem requestul
         const url = `/login/process/${email}`;
@@ -38,6 +35,12 @@ class Home extends React.Component {
             });
     };*/
 
+    routeChange=()=> {
+        let path = '/dashboard';
+        let history = useHistory();
+        history.push(path);
+    }
+
     render() {
 
         return (
@@ -62,8 +65,7 @@ class Home extends React.Component {
                     </div>
                 </div>
 
-                <button type="submit" className="btn btn-primary btn-block" onClick={this.routeChange}>Submit</button>
-
+               <NavLink className="btn btn-primary btn-block" href="/dashboard">Submit</NavLink>
                 {/*<p className="forgot-password text-right">
                     Forgot <a href="#">password?</a>
                 </p>*/}

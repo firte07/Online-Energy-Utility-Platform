@@ -42,7 +42,7 @@ public class PersonController {
     }
 
     @PostMapping()
-    public ResponseEntity<UUID> insertProsumer(@Valid @RequestBody PersonDetailsDTO personDTO) {
+    public ResponseEntity<UUID> insertPerson(@Valid @RequestBody PersonDetailsDTO personDTO) {
         UUID personID = personService.insert(personDTO);
         return new ResponseEntity<>(personID, HttpStatus.CREATED);
     }

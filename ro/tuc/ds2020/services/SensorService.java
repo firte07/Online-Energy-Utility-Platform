@@ -10,6 +10,7 @@ import ro.tuc.ds2020.dtos.PersonDetailsDTO;
 import ro.tuc.ds2020.dtos.SensorDTO;
 import ro.tuc.ds2020.dtos.builders.PersonBuilder;
 import ro.tuc.ds2020.dtos.builders.SensorBuilder;
+import ro.tuc.ds2020.entities.Credential;
 import ro.tuc.ds2020.entities.Person;
 import ro.tuc.ds2020.entities.Sensor;
 import ro.tuc.ds2020.repositories.PersonRepository;

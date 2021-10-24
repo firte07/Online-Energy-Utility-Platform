@@ -10,6 +10,15 @@ const columns = [
     {
         Header: 'Age',
         accessor: 'age',
+    },
+    {
+        Header: 'Address',
+        accessor: 'address',
+    },
+    {
+        Header: 'Action',
+        accessor: 'action',
+        <button onClick={()=> this.}
     }
 ];
 

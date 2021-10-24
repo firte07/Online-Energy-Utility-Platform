@@ -9,14 +9,16 @@ public class PersonDTO extends RepresentationModel<PersonDTO> {
     private UUID id;
     private String name;
     private int age;
+    private String address;
 
     public PersonDTO() {
     }
 
-    public PersonDTO(UUID id, String name, int age) {
+    public PersonDTO(UUID id, String name, int age, String address) {
         this.id = id;
         this.name = name;
         this.age = age;
+        this.address = address;
     }
 
     public UUID getId() {
@@ -41,6 +43,14 @@ public class PersonDTO extends RepresentationModel<PersonDTO> {
 
     public void setAge(int age) {
         this.age = age;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
     }
 
     @Override
