@@ -48,10 +48,10 @@ public class DeviceController {
         return new ResponseEntity<>(deviceId, HttpStatus.CREATED);
     }
 
-    //TODO: nu vrea aici
     @RequestMapping(method = RequestMethod.PUT, value = "/{id}")
-    public void updateAverageConsumption(@PathVariable("id") UUID deviceId, @RequestBody float newAverageConsumption){
-        deviceService.updateAverageConsumption(deviceId, newAverageConsumption);
+    public ResponseEntity<DeviceDTO> update(@PathVariable("id") UUID deviceId,@Valid @RequestBody DeviceDTO deviceDTO){
+        DeviceDTO updateDeviceDTO = deviceService.update(deviceId, deviceDTO);
+        return new ResponseEntity<>(updateDeviceDTO, HttpStatus.OK);
     }
 
     @RequestMapping(method = RequestMethod.DELETE, value = "/{id}")

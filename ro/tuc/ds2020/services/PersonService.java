@@ -3,6 +3,7 @@ package ro.tuc.ds2020.services;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import ro.tuc.ds2020.controllers.handlers.exceptions.model.ResourceNotFoundException;
 import ro.tuc.ds2020.dtos.PersonDTO;
@@ -49,22 +50,19 @@ public class PersonService {
         return person.getId();
     }
 
-    public void updateAddress(UUID personId, String newAddress) {
+    public PersonDTO update(UUID personId, PersonDetailsDTO personDTO) {
         Optional<Person> person = personRepository.findById(personId);
         if(!person.isPresent()){
             LOGGER.error("Person with id {} was not found in db", personId);
             throw new ResourceNotFoundException(Person.class.getSimpleName() + " with id: " + personId);
         }
-        personRepository.updateAddress(newAddress, personId);
-    }
+        person.get().setAddress(personDTO.getAddress());
+        person.get().setAge(personDTO.getAge());
+        person.get().setName(personDTO.getName());
 
-    public void updateNameById(UUID personId, String newName) {
-        Optional<Person> person = personRepository.findById(personId);
-        if(!person.isPresent()){
-            LOGGER.error("Person with id {} was not found in db", personId);
-            throw new ResourceNotFoundException(Person.class.getSimpleName() + " with id: " + personId);
-        }
-        personRepository.updateNameById(newName, personId);
+        Person updatedPerson = personRepository.save(person.get());
+
+        return PersonBuilder.toPersonDTO(updatedPerson);
     }
 
     public void deletePersonById(UUID personId) {

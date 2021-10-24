@@ -3,6 +3,7 @@ package ro.tuc.ds2020.services;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import ro.tuc.ds2020.controllers.handlers.exceptions.model.ResourceNotFoundException;
 import ro.tuc.ds2020.dtos.DeviceDTO;
@@ -49,13 +50,20 @@ public class DeviceService {
         return device.getId_device();
     }
 
-    public void updateAverageConsumption(UUID deviceId, float newAverageConsumption){
+    public DeviceDTO update(UUID deviceId, DeviceDTO deviceDTO){
         Optional<Device> deviceOptional = deviceRepository.findById(deviceId);
         if(!deviceOptional.isPresent()){
             LOGGER.error("Device with id {} was not found in db", deviceId);
             throw new ResourceNotFoundException(Device.class.getSimpleName() + " with id: " + deviceId);
         }
-        deviceRepository.updateAverageConsumption(newAverageConsumption, deviceId);
+        deviceOptional.get().setMaxEnergy(deviceDTO.getMaxEnergy());
+        deviceOptional.get().setAverageConsumption(deviceDTO.getAverageConsumption());
+        deviceOptional.get().setDescription(deviceDTO.getDescription());
+        deviceOptional.get().setLocation(deviceDTO.getLocation());
+
+        Device updateDevice = deviceRepository.save(deviceOptional.get());
+
+        return DeviceBuilder.toDeviceDTO(updateDevice);
     }
 
     public void deleteDeviceById(UUID deviceId) {

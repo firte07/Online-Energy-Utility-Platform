@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import ro.tuc.ds2020.dtos.PersonDTO;
 import ro.tuc.ds2020.dtos.PersonDetailsDTO;
 import ro.tuc.ds2020.dtos.SensorDTO;
+import ro.tuc.ds2020.entities.Sensor;
 import ro.tuc.ds2020.services.SensorService;
 
 import javax.validation.Valid;
@@ -52,8 +53,9 @@ public class SensorController {
     }
 
     @RequestMapping(method = RequestMethod.PUT, value = "/{id}")
-    public void updateDescription(@PathVariable("id") UUID sensorId, @RequestBody String newDescription){
-        sensorService.updateDescription(sensorId, newDescription);
+    public ResponseEntity<SensorDTO> update(@PathVariable("id") UUID sensorId, @Valid @RequestBody SensorDTO sensorDTO){
+        SensorDTO updateSensorDTO = sensorService.update(sensorId, sensorDTO);
+        return new ResponseEntity<>(updateSensorDTO, HttpStatus.OK);
     }
 
     @RequestMapping(method = RequestMethod.DELETE, value = "/{id}")

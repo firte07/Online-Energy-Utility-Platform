@@ -53,14 +53,10 @@ public class PersonController {
         return new ResponseEntity<>(dto, HttpStatus.OK);
     }
 
-    /*@RequestMapping(method = RequestMethod.PUT, value = "/{id}")
-    public void updateAddress(@PathVariable("id") UUID personId, @RequestBody String newAddress){
-        personService.updateAddress(personId, newAddress);
-    }*/
-
     @RequestMapping(method = RequestMethod.PUT, value = "/{id}")
-    public void updateNameById(@PathVariable("id") UUID personId, @RequestBody String newName){
-        personService.updateNameById(personId, newName);
+    public ResponseEntity<PersonDTO> update(@PathVariable("id") UUID personId, @Valid @RequestBody PersonDetailsDTO personDTO){
+        PersonDTO updatePersonDTO = personService.update(personId, personDTO);
+        return new ResponseEntity<>(updatePersonDTO, HttpStatus.OK);
     }
 
     @RequestMapping(method = RequestMethod.DELETE, value = "/{id}")

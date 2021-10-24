@@ -3,6 +3,7 @@ package ro.tuc.ds2020.services;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import ro.tuc.ds2020.controllers.handlers.exceptions.model.ResourceNotFoundException;
 import ro.tuc.ds2020.dtos.PersonDTO;
@@ -54,13 +55,18 @@ public class SensorService {
         return sensor.getId_sensor();
     }
 
-    public void updateDescription(UUID sensorId, String newDescription) {
+    public SensorDTO update(UUID sensorId, SensorDTO sensorDTO) {
         Optional<Sensor> sensor = sensorRepository.findById(sensorId);
         if(!sensor.isPresent()){
             LOGGER.error("Sensor with id {} was not found in db", sensorId);
             throw new ResourceNotFoundException(Sensor.class.getSimpleName() + " with id: " + sensorId);
         }
-        sensorRepository.updateDescription(newDescription, sensorId);
+        sensor.get().setDescription(sensorDTO.getDescription());
+        sensor.get().setMaxValue(sensorDTO.getMaxValue());
+
+        Sensor updateSensor = sensorRepository.save(sensor.get());
+
+        return SensorBuilder.toSensorDTO(updateSensor);
     }
 
     public void deleteSensor(UUID sensorId) {
