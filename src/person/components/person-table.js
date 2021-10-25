@@ -1,7 +1,6 @@
 import React from "react";
 import Table from "../../commons/tables/table";
 
-
 const columns = [
     {
         Header: 'Name',
@@ -18,7 +17,6 @@ const columns = [
     {
         Header: 'Action',
         accessor: 'action',
-        <button onClick={()=> this.}
     }
 ];
 
@@ -40,7 +38,7 @@ class PersonTable extends React.Component {
     render() {
         return (
             <Table
-                data={this.state.tableData}
+                data={this.state.tableData }
                 columns={columns}
                 search={filters}
                 pageSize={5}

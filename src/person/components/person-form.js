@@ -3,7 +3,7 @@ import validate from "./validators/person-validators";
 import Button from "react-bootstrap/Button";
 import * as API_USERS from "../api/person-api";
 import APIResponseErrorMessage from "../../commons/errorhandling/api-response-error-message";
-import {Col, Row} from "reactstrap";
+import {Card, Col, Row} from "reactstrap";
 import { FormGroup, Input, Label} from 'reactstrap';
 
 
@@ -118,6 +118,10 @@ class PersonForm extends React.Component {
         this.registerPerson(person);
     }
 
+    /*cancel(){
+        this.props.history.push('/dashboard/person');
+    }*/
+
     render() {
         return (
             <div>
@@ -172,11 +176,16 @@ class PersonForm extends React.Component {
                 </FormGroup>
 
                     <Row>
-                        <Col sm={{size: '4', offset: 8}}>
-                            <Button type={"submit"} disabled={!this.state.formIsValid} onClick={this.handleSubmit}>  Submit </Button>
+                        <Col sm={{size: '4', offset: 5}}>
+                            <Button className="btn btn-success" type={"submit"} disabled={!this.state.formIsValid} onClick={this.handleSubmit}>  Submit </Button>
                         </Col>
                     </Row>
-
+                    <br/>
+                    {/*<Row>
+                        <Col sm={{size: '6', offset: 5}}>
+                            <Button className="btn btn-danger" type={"close"} onClick={this.cancel.bind(this)}>  Close </Button>
+                        </Col>
+                    </Row>*/}
                 {
                     this.state.errorStatus > 0 &&
                     <APIResponseErrorMessage errorStatus={this.state.errorStatus} error={this.state.error}/>

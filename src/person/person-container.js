@@ -39,7 +39,6 @@ class PersonContainer extends React.Component {
 
     fetchPersons() {
         return API_USERS.getPersons((result, status, err) => {
-
             if (result !== null && status === 200) {
                 this.setState({
                     tableData: result,

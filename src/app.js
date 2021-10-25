@@ -8,6 +8,8 @@ import ErrorPage from './commons/errorhandling/error-page';
 import styles from './commons/styles/project-style.css';
 import Dashboard from "./dashboard/dashboard";
 import UpdatePerson from "./person/components/update-person";
+import ClientContainer from "./client/client-container";
+import UpdateClient from "./client/update-client";
 
 class App extends React.Component {
 
@@ -27,17 +29,28 @@ class App extends React.Component {
                             render={() => <Home/>}
                         />
 
+
                         <Route
                             exact
                             path='/dashboard'
                             render={() => <Dashboard/>}
                         />
 
+
+
                         <Route
                             exact
                             path='/dashboard/person'
-                            render={() => <PersonContainer/>}
+                            render={() => <ClientContainer/>}
                         />
+
+
+                        <Route
+                            exact
+                            path='/dashboard/person/update'
+                            render={() => <UpdateClient/>}
+                        />
+
 
                         <Route
                             exact
