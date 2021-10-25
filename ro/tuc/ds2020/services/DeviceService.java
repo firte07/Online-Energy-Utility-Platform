@@ -12,9 +12,7 @@ import ro.tuc.ds2020.entities.Device;
 import ro.tuc.ds2020.entities.Person;
 import ro.tuc.ds2020.repositories.DeviceRepository;
 
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -66,12 +64,13 @@ public class DeviceService {
         return DeviceBuilder.toDeviceDTO(updateDevice);
     }
 
-    public void deleteDeviceById(UUID deviceId) {
+    public Map<String, Boolean> deleteDevice(UUID deviceId) {
         Optional<Device> deviceOptional = deviceRepository.findById(deviceId);
         if(!deviceOptional.isPresent()){
             LOGGER.error("Device with id {} was not found in db", deviceId);
             throw new ResourceNotFoundException(Device.class.getSimpleName() + " with id: " + deviceId);
         }
-        deviceRepository.deleteDeviceById(deviceId);
+        deviceRepository.delete(deviceOptional.get());
+        return new HashMap<>();
     }
 }

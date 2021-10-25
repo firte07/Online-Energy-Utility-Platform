@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
-import ClientService from "../services/client-service";
+import ClientService from "../../services/ClientService";
+import { withRouter } from 'react-router-dom';
 
 class UpdateClient extends Component {
     constructor(props) {
@@ -19,13 +20,14 @@ class UpdateClient extends Component {
     }
 
     componentDidMount() {
-        ClientService.getClientById(this.state.id).then((response) =>{
-            let client = response.data;
-            this.setState({
-                name: client.name,
-                age: client.age,
-                address: client.address});
-            });
+        ClientService.getClientById(this.state.id).then((res) => {
+           let client = res.data;
+           this.setState({
+              name: client.name,
+              address: client.address,
+              age: client.age
+           });
+        });
     }
 
     updateClient = (e) => {
@@ -33,11 +35,10 @@ class UpdateClient extends Component {
         let client = {name: this.state.name, age: this.state.age, address: this.state.address};
         console.log('client => ' + JSON.stringify(client));
 
-        /*ClientService.updateClient(client, this.state.id).then( response => {
-                this.props.history.push('/dashboard/person');
-        });*/
+        ClientService.updateClient(client, this.state.id).then(res => {
+            this.props.history.push('/clients');
+        });
     }
-
 
     changeName= (event) => {
         this.setState({name: event.target.value});
@@ -52,7 +53,7 @@ class UpdateClient extends Component {
     }
 
     cancel(){
-     /*   this.props.history.push('/dashboard/person');*/
+        this.props.history.push('/clients');
     }
 
     render() {
@@ -61,7 +62,7 @@ class UpdateClient extends Component {
                 <div className = "container">
                     <div className = "row">
                         <div className = "card col-md-6 offset-md-3 offset-md-3">
-                            <h3 className="text-center">Update Client</h3>
+                            <h3 className="text-center">Create Client</h3>
                             <div className = "card-body">
                                 <form>
                                     <div className = "form-group">
@@ -86,11 +87,10 @@ class UpdateClient extends Component {
                             </div>
                         </div>
                     </div>
-
                 </div>
             </div>
-        )
+        );
     }
 }
 
-export default UpdateClient;
+export default withRouter(UpdateClient);

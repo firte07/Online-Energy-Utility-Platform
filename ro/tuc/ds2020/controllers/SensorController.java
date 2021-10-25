@@ -13,6 +13,7 @@ import ro.tuc.ds2020.services.SensorService;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
@@ -59,7 +60,9 @@ public class SensorController {
     }
 
     @RequestMapping(method = RequestMethod.DELETE, value = "/{id}")
-    public void deleteSensor(@PathVariable("id") UUID sensorId){
-        sensorService.deleteSensor(sensorId);
+    public ResponseEntity<Map<String, Boolean>> deleteSensor(@PathVariable("id") UUID sensorId){
+        Map<String, Boolean> response = sensorService.deleteSensor(sensorId);
+        response.put("deleted", Boolean.TRUE);
+        return ResponseEntity.ok(response);
     }
 }

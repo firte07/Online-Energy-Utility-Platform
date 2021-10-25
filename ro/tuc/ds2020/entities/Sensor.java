@@ -31,7 +31,7 @@ public class Sensor implements Serializable{
     private List<Monitoring> monitorings;
 
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinColumn(name = "id_device")
+    @JoinColumn(name = "id_device", unique = true)
     private Device device;
 
     public Sensor(){}

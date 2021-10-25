@@ -37,8 +37,9 @@ public class Device implements Serializable{
     @OneToOne(mappedBy = "device")
     private Sensor sensor;
 
-    @ManyToMany(mappedBy = "devices")
-    private List<Person> persons = new ArrayList<>();
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinColumn(name = "id_person")
+    private Person person;
 
     public Device(){
     }
@@ -98,11 +99,11 @@ public class Device implements Serializable{
         this.sensor = sensor;
     }
 
-    public List<Person> getPersons() {
-        return persons;
+    public Person getPerson() {
+        return person;
     }
 
-    public void setPersons(List<Person> person) {
-        this.persons = person;
+    public void setPerson(Person person) {
+        this.person = person;
     }
 }

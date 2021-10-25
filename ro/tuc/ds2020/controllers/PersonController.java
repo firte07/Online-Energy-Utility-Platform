@@ -13,6 +13,7 @@ import ro.tuc.ds2020.services.PersonService;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
@@ -60,7 +61,9 @@ public class PersonController {
     }
 
     @RequestMapping(method = RequestMethod.DELETE, value = "/{id}")
-    public void deletePerson(@PathVariable("id") UUID personId){
-        personService.deletePersonById(personId);
+    public ResponseEntity<Map<String, Boolean>> deletePerson(@PathVariable("id") UUID personId){
+        Map<String, Boolean> response = personService.deletePerson(personId);
+        response.put("deleted", Boolean.TRUE);
+        return ResponseEntity.ok(response);
     }
 }

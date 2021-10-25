@@ -17,9 +17,7 @@ import ro.tuc.ds2020.entities.Sensor;
 import ro.tuc.ds2020.repositories.PersonRepository;
 import ro.tuc.ds2020.repositories.SensorRepository;
 
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -69,13 +67,14 @@ public class SensorService {
         return SensorBuilder.toSensorDTO(updateSensor);
     }
 
-    public void deleteSensor(UUID sensorId) {
+    public Map<String, Boolean> deleteSensor(UUID sensorId) {
         Optional<Sensor> sensor = sensorRepository.findById(sensorId);
         if(!sensor.isPresent()){
             LOGGER.error("Sensor with id {} was not found in db", sensorId);
             throw new ResourceNotFoundException(Sensor.class.getSimpleName() + " with id: " + sensorId);
         }
-        sensorRepository.deleteSensorById(sensorId);
+        sensorRepository.delete(sensor.get());
+        return new HashMap<>();
     }
 
 

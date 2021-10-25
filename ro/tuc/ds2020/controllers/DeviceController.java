@@ -10,6 +10,7 @@ import ro.tuc.ds2020.services.DeviceService;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
@@ -55,7 +56,9 @@ public class DeviceController {
     }
 
     @RequestMapping(method = RequestMethod.DELETE, value = "/{id}")
-    public void deleteDevice(@PathVariable("id") UUID deviceId){
-        deviceService.deleteDeviceById(deviceId);
+    public ResponseEntity<Map<String, Boolean>> deleteDevice(@PathVariable("id") UUID deviceId){
+        Map<String, Boolean> response = deviceService.deleteDevice(deviceId);
+        response.put("deleted", Boolean.TRUE);
+        return ResponseEntity.ok(response);
     }
 }

@@ -1,83 +1,38 @@
-import React from 'react'
+import './App.css';
+import React from "react";
 import {BrowserRouter as Router, Route, Switch} from 'react-router-dom'
-import NavigationBar from './navigation-bar'
-import Home from './home/home';
-import PersonContainer from './person/person-container'
+import HeaderComponent from "./commons/HeaderComponent";
+import Clients from "./components/client/Clients";
+import CreateClient from "./components/client/CreateClient";
+import UpdateClient from "./components/client/UpdateClient";
+import Devices from "./components/device/Devices";
+import CreateDevice from "./components/device/CreateDevice";
+import UpdateDevice from "./components/device/UpdateDevice";
 
-import ErrorPage from './commons/errorhandling/error-page';
-import styles from './commons/styles/project-style.css';
-import Dashboard from "./dashboard/dashboard";
-import UpdatePerson from "./person/components/update-person";
-import ClientContainer from "./client/client-container";
-import UpdateClient from "./client/update-client";
+function App() {
+  return (
+    <div>
+        <Router>
+            <div className = "container">
+                <HeaderComponent/>
+                    <div className = "container">
+                        <Switch>
+                            <Route exact path = '/' render={() => <Clients/>}/>
 
-class App extends React.Component {
+                            <Route path = '/clients' render={() => <Clients/>}/>
+                            <Route path = '/add-client' render={() => <CreateClient/>}/>
+                            <Route path = '/update-client/:id' render={() => <UpdateClient/>}/>
 
-
-    render() {
-
-        return (
-            <div className={styles.back}>
-            <Router>
-                <div>
-                    <NavigationBar />
-                    <Switch>
-
-                        <Route
-                            exact
-                            path='/'
-                            render={() => <Home/>}
-                        />
-
-
-                        <Route
-                            exact
-                            path='/dashboard'
-                            render={() => <Dashboard/>}
-                        />
-
-
-
-                        <Route
-                            exact
-                            path='/dashboard/person'
-                            render={() => <ClientContainer/>}
-                        />
-
-
-                        <Route
-                            exact
-                            path='/dashboard/person/update'
-                            render={() => <UpdateClient/>}
-                        />
-
-
-                        <Route
-                            exact
-                            path='/dashboard/update-person/:id'
-                            render={() => <UpdatePerson/>}
-                        />
-
-                        <Route
-                            exact
-                            path='/person'
-                            render={() => <PersonContainer/>}
-                        />
-
-                        {/*Error*/}
-                        <Route
-                            exact
-                            path='/error'
-                            render={() => <ErrorPage/>}
-                        />
-
-                        <Route render={() =><ErrorPage/>} />
-                    </Switch>
-                </div>
-            </Router>
+                            <Route path = '/devices' render={() => <Devices/>}/>
+                            <Route path = '/add-device' render={() => <CreateDevice/>}/>
+                            <Route path = '/update-device/:id' render={() => <UpdateDevice/>}/>
+                        </Switch>
+                    </div>
             </div>
-        )
-    };
+        </Router>
+    </div>
+
+  );
 }
 
-export default App
+export default App;

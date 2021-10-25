@@ -31,15 +31,10 @@ public class Person  implements Serializable{
     private int age;
 
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "id_credential", referencedColumnName = "id_credential")
+    @JoinColumn(name = "id_credential", referencedColumnName = "id_credential", unique = true)
     private Credential credential;
 
-    @ManyToMany
-    @JoinTable(
-            name = "person_device",
-            joinColumns = @JoinColumn(name = "person_id", referencedColumnName = "id_person"),
-            inverseJoinColumns = @JoinColumn(name = "device_id", referencedColumnName = "id_device")
-    )
+    @OneToMany(mappedBy = "person", cascade = CascadeType.ALL)
     private List<Device> devices = new ArrayList<>();
 
 

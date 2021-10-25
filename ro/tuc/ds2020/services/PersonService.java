@@ -12,9 +12,7 @@ import ro.tuc.ds2020.dtos.builders.PersonBuilder;
 import ro.tuc.ds2020.entities.Person;
 import ro.tuc.ds2020.repositories.PersonRepository;
 
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -65,12 +63,13 @@ public class PersonService {
         return PersonBuilder.toPersonDTO(updatedPerson);
     }
 
-    public void deletePersonById(UUID personId) {
+    public Map<String, Boolean> deletePerson(UUID personId) {
         Optional<Person> person = personRepository.findById(personId);
         if(!person.isPresent()){
             LOGGER.error("Person with id {} was not found in db", personId);
             throw new ResourceNotFoundException(Person.class.getSimpleName() + " with id: " + personId);
         }
-        personRepository.deletePersonById(personId);
+        personRepository.delete(person.get());
+        return new HashMap<>();
     }
 }
