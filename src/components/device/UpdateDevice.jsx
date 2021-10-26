@@ -42,7 +42,7 @@ class UpdateDevice extends Component {
         console.log('device => ' + JSON.stringify(device));
 
         DeviceService.updateDevice(device, this.state.id).then(res => {
-            this.props.history.push('/devices');
+            this.props.history.push('/dashboard/devices');
         });
     }
 
@@ -64,7 +64,7 @@ class UpdateDevice extends Component {
     }
 
     cancel(){
-        this.props.history.push('/devices');
+        this.props.history.push('/dashboard/devices');
     }
 
     render() {

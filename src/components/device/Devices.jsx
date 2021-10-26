@@ -14,6 +14,7 @@ class Devices extends Component {
         this.addDevice = this.addDevice.bind(this);
         this.deleteDevice = this.deleteDevice.bind(this);
         this.updateDevice = this.updateDevice.bind(this);
+        this.goBack = this.goBack.bind(this);
     }
 
     componentDidMount() {
@@ -33,11 +34,15 @@ class Devices extends Component {
     }
 
     updateDevice(id){
-        this.props.history.push(`/update-device/${id}`);
+        this.props.history.push(`/dashboard/update-device/${id}`);
     }
 
     addDevice(){
-        this.props.history.push('/add-device');
+        this.props.history.push('/dashboard/add-device');
+    }
+
+    goBack(){
+        this.props.history.push('/dashboard');
     }
 
     render() {
@@ -47,6 +52,7 @@ class Devices extends Component {
                 <div className= "row">
                     <button className = "btn btn-primary" onClick={this.addDevice}>Add Device</button>
                 </div>
+                <br/>
                 <div className="row">
                     <table className="table table-bordered table-striped ">
                         <thead>
@@ -79,6 +85,9 @@ class Devices extends Component {
                         </tbody>
 
                     </table>
+                </div>
+                <div className= "row">
+                    <button className = "btn btn-primary" onClick={this.goBack}>Back</button>
                 </div>
             </div>
         );

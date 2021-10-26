@@ -33,7 +33,7 @@ class CreateDevice extends Component {
         console.log('device => ' + JSON.stringify(device));
 
         DeviceService.createDevice(device).then(res => {
-            this.props.history.push('/devices');
+            this.props.history.push('/dashboard/devices');
         });
     }
 
@@ -55,7 +55,7 @@ class CreateDevice extends Component {
     }
 
     cancel(){
-        this.props.history.push('/devices');
+        this.props.history.push('/dashboard/devices');
     }
 
     render() {

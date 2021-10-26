@@ -36,7 +36,7 @@ class UpdateClient extends Component {
         console.log('client => ' + JSON.stringify(client));
 
         ClientService.updateClient(client, this.state.id).then(res => {
-            this.props.history.push('/clients');
+            this.props.history.push('/dashboard/clients');
         });
     }
 
@@ -53,7 +53,7 @@ class UpdateClient extends Component {
     }
 
     cancel(){
-        this.props.history.push('/clients');
+        this.props.history.push('/dashboard/clients');
     }
 
     render() {
@@ -62,7 +62,7 @@ class UpdateClient extends Component {
                 <div className = "container">
                     <div className = "row">
                         <div className = "card col-md-6 offset-md-3 offset-md-3">
-                            <h3 className="text-center">Create Client</h3>
+                            <h3 className="text-center">Update Client</h3>
                             <div className = "card-body">
                                 <form>
                                     <div className = "form-group">

@@ -24,7 +24,7 @@ class DeviceService{
     }
 
     deleteDevice(deviceId){
-        return axios.delete(HOST.backend_api + endpoint.device + '/' + deviceId);
+         return axios.delete(HOST.backend_api + endpoint.device + '/' + deviceId);
     }
 }
 

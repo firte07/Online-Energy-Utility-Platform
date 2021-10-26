@@ -28,7 +28,7 @@ class CreateClient extends Component {
         console.log('client => ' + JSON.stringify(client));
 
         ClientService.createClient(client).then(res => {
-            this.props.history.push('/clients');
+            this.props.history.push('/dashboard/clients');
         });
     }
 
@@ -46,7 +46,7 @@ class CreateClient extends Component {
     }
 
     cancel(){
-        this.props.history.push('/clients');
+        this.props.history.push('/dashboard/clients');
     }
 
     render() {

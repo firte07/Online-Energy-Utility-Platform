@@ -14,6 +14,7 @@ class Clients extends Component {
         this.addClient = this.addClient.bind(this);
         this.deleteClient = this.deleteClient.bind(this);
         this.updateClient = this.updateClient.bind(this);
+        this.goBack = this.goBack.bind(this);
     }
 
     componentDidMount() {
@@ -31,11 +32,15 @@ class Clients extends Component {
     }
 
     updateClient(id){
-        this.props.history.push(`/update-client/${id}`);
+        this.props.history.push(`/dashboard/update-client/${id}`);
     }
 
     addClient(){
-        this.props.history.push('/add-client');
+        this.props.history.push('/dashboard/add-client');
+    }
+
+    goBack(){
+        this.props.history.push('/dashboard');
     }
 
     render() {
@@ -45,6 +50,7 @@ class Clients extends Component {
                 <div className= "row">
                     <button className = "btn btn-primary" onClick={this.addClient}>Add Client</button>
                 </div>
+                <br/>
                 <div className="row">
                     <table className="table table-bordered table-striped ">
                         <thead>
@@ -74,6 +80,9 @@ class Clients extends Component {
                         </tbody>
 
                     </table>
+                </div>
+                <div className= "row">
+                    <button className = "btn btn-primary" onClick={this.goBack}>Back</button>
                 </div>
             </div>
         );
