@@ -1,5 +1,5 @@
 import axios from 'axios';
-import {HOST} from '../commons/host';
+import {Host} from '../commons/Host';
 
 const endpoint = {
     client: '/person'
@@ -8,23 +8,23 @@ const endpoint = {
 class ClientService{
 
     getClients(){
-        return axios.get(HOST.backend_api+ endpoint.client);
+        return axios.get(Host.backend_api+ endpoint.client);
     }
 
     createClient(clientToAdd){
-        return axios.post(HOST.backend_api+ endpoint.client, clientToAdd);
+        return axios.post(Host.backend_api+ endpoint.client, clientToAdd);
     }
 
     getClientById(clientId){
-        return axios.get(HOST.backend_api + endpoint.client + '/' + clientId);
+        return axios.get(Host.backend_api + endpoint.client + '/' + clientId);
     }
 
     updateClient(newClient, clientId){
-        return axios.put(HOST.backend_api + endpoint.client + '/' + clientId, newClient);
+        return axios.put(Host.backend_api + endpoint.client + '/' + clientId, newClient);
     }
 
     deleteClient(clientId){
-        return axios.delete(HOST.backend_api + endpoint.client + '/' + clientId);
+        return axios.delete(Host.backend_api + endpoint.client + '/' + clientId);
     }
 }
 

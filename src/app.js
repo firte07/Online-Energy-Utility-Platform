@@ -11,11 +11,12 @@ import UpdateDevice from "./components/device/UpdateDevice";
 import Sensors from "./components/sensor/Sensors";
 import CreateSensor from "./components/sensor/CreateSensor";
 import UpdateSensor from "./components/sensor/UpdateSensor";
-import Home from "./components/home/home";
+import Home from "./components/home/Home";
 import Dashboard from "./components/Dashboard";
+import Registration from "./components/Registration";
+import User from "./components/user/User";
 
 //TODO: validari pentru crud
-//TODO: daca apesi pe logo sa te duca la home
 
 function App() {
   return (
@@ -40,6 +41,10 @@ function App() {
                             <Route path = '/dashboard/sensors' render={() => <Sensors/>}/>
                             <Route path = '/dashboard/add-sensor' render={() => <CreateSensor/>}/>
                             <Route path = '/dashboard/update-sensor/:id' render={() => <UpdateSensor/>}/>
+
+                            <Route exact path = '/registration' render={() => <Registration/>}/>
+
+                            <Route exact path = '/user' render={() => <User/>}/>
                         </Switch>
                     </div>
             </div>

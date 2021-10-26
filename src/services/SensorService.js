@@ -1,5 +1,5 @@
 import axios from 'axios';
-import {HOST} from '../commons/host';
+import {Host} from '../commons/Host';
 
 const endpoint = {
     sensor: '/sensor'
@@ -8,23 +8,23 @@ const endpoint = {
 class SensorService{
 
     getSensors(){
-        return axios.get(HOST.backend_api+ endpoint.sensor);
+        return axios.get(Host.backend_api+ endpoint.sensor);
     }
 
     createSensor(sensorToAdd){
-        return axios.post(HOST.backend_api+ endpoint.sensor, sensorToAdd);
+        return axios.post(Host.backend_api+ endpoint.sensor, sensorToAdd);
     }
 
     getSensorById(sensorId){
-        return axios.get(HOST.backend_api + endpoint.sensor + '/' + sensorId);
+        return axios.get(Host.backend_api + endpoint.sensor + '/' + sensorId);
     }
 
     updateSensor(newSensor, sensorId){
-        return axios.put(HOST.backend_api + endpoint.sensor + '/' + sensorId, newSensor);
+        return axios.put(Host.backend_api + endpoint.sensor + '/' + sensorId, newSensor);
     }
 
     deleteSensor(sensorId){
-        return axios.delete(HOST.backend_api + endpoint.sensor + '/' + sensorId);
+        return axios.delete(Host.backend_api + endpoint.sensor + '/' + sensorId);
     }
 }
 

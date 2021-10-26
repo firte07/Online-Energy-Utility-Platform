@@ -1,3 +1,3 @@
-export const HOST = {
+export const Host = {
     backend_api: 'http://localhost:8080',
 };

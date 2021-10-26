@@ -1,5 +1,5 @@
 import axios from 'axios';
-import {HOST} from '../commons/host';
+import {Host} from '../commons/Host';
 
 const endpoint = {
     device: '/device'
@@ -8,23 +8,23 @@ const endpoint = {
 class DeviceService{
 
     getDevices(){
-        return axios.get(HOST.backend_api+ endpoint.device);
+        return axios.get(Host.backend_api+ endpoint.device);
     }
 
     createDevice(deviceToAdd){
-        return axios.post(HOST.backend_api+ endpoint.device, deviceToAdd);
+        return axios.post(Host.backend_api+ endpoint.device, deviceToAdd);
     }
 
     getDeviceById(deviceId){
-        return axios.get(HOST.backend_api + endpoint.device + '/' + deviceId);
+        return axios.get(Host.backend_api + endpoint.device + '/' + deviceId);
     }
 
     updateDevice(newDevice, deviceId){
-        return axios.put(HOST.backend_api + endpoint.device + '/' + deviceId, newDevice);
+        return axios.put(Host.backend_api + endpoint.device + '/' + deviceId, newDevice);
     }
 
     deleteDevice(deviceId){
-         return axios.delete(HOST.backend_api + endpoint.device + '/' + deviceId);
+         return axios.delete(Host.backend_api + endpoint.device + '/' + deviceId);
     }
 }
 
