@@ -14,4 +14,8 @@ public class SensorBuilder {
     public static Sensor toEntity(SensorDTO sensorDTO){
         return new Sensor(sensorDTO.getDescription(), sensorDTO.getMaxValue());
     }
+
+    public static Sensor toEntityWithId(SensorDTO sensorDTO){
+        return new Sensor(sensorDTO.getId(), sensorDTO.getDescription(), sensorDTO.getMaxValue());
+    }
 }

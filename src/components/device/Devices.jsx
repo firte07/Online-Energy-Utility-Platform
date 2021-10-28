@@ -37,6 +37,10 @@ class Devices extends Component {
         this.props.history.push(`/dashboard/update-device/${id}`);
     }
 
+    connectSensor(id){
+        this.props.history.push(`/dashboard/connect-sensor/${id}`);
+    }
+
     addDevice(){
         this.props.history.push('/dashboard/add-device');
     }
@@ -78,6 +82,7 @@ class Devices extends Component {
                                         <td>
                                             <button onClick= {()=> this.updateDevice(device.id) } className= "btn btn-info">Update</button>
                                             <button style = {{marginLeft: "10px"}} onClick= {()=> this.deleteDevice(device.id) } className= "btn btn-danger">Delete</button>
+                                            <button style = {{marginLeft: "10px"}} onClick= {()=> this.connectSensor(device.id) } className= "btn btn-success">Connect sensor</button>
                                         </td>
                                     </tr>
                             )

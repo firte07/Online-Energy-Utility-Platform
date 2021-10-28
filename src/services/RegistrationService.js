@@ -9,6 +9,7 @@ class RegistrationService{
 
     createCredentials(clientCredential){
         return axios.post(Host.backend_api + endpoint.registration, clientCredential);
+
     }
 
     login(credentials){

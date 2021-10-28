@@ -6,6 +6,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ro.tuc.ds2020.dtos.DeviceDTO;
+import ro.tuc.ds2020.dtos.DeviceSensorDTO;
+import ro.tuc.ds2020.dtos.builders.DeviceBuilder;
+import ro.tuc.ds2020.entities.Device;
 import ro.tuc.ds2020.services.DeviceService;
 
 import javax.validation.Valid;
@@ -60,5 +63,13 @@ public class DeviceController {
         Map<String, Boolean> response = deviceService.deleteDevice(deviceId);
         response.put("deleted", Boolean.TRUE);
         return ResponseEntity.ok(response);
+    }
+
+    @PostMapping(value = "/connect-sensor/{id}")
+    public ResponseEntity<String> connectSensor(@PathVariable("id") UUID deviceId, @Valid @RequestBody  String sensorId){
+
+        String response = deviceService.connectSensorToDevice(deviceId,sensorId);
+        return ResponseEntity.ok(response);
+
     }
 }

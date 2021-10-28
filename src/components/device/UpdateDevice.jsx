@@ -52,6 +52,7 @@ class UpdateDevice extends Component {
     }
 
     changeLocation= (event) => {
+        console.log('Bla bla update');
         this.setState({location: event.target.value});
     }
 

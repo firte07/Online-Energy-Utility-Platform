@@ -7,10 +7,14 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import ro.tuc.ds2020.controllers.handlers.exceptions.model.ResourceNotFoundException;
 import ro.tuc.ds2020.dtos.DeviceDTO;
+import ro.tuc.ds2020.dtos.DeviceSensorDTO;
 import ro.tuc.ds2020.dtos.builders.DeviceBuilder;
+import ro.tuc.ds2020.dtos.builders.SensorBuilder;
 import ro.tuc.ds2020.entities.Device;
 import ro.tuc.ds2020.entities.Person;
+import ro.tuc.ds2020.entities.Sensor;
 import ro.tuc.ds2020.repositories.DeviceRepository;
+import ro.tuc.ds2020.repositories.SensorRepository;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -19,10 +23,12 @@ import java.util.stream.Collectors;
 public class DeviceService {
     private static final Logger LOGGER = LoggerFactory.getLogger(DeviceService.class);
     private final DeviceRepository deviceRepository;
+    private final SensorRepository sensorRepository;
 
     @Autowired
-    public DeviceService(DeviceRepository deviceRepository) {
+    public DeviceService(DeviceRepository deviceRepository, SensorRepository sensorRepository) {
         this.deviceRepository = deviceRepository;
+        this.sensorRepository = sensorRepository;
     }
 
     public List<DeviceDTO> findDevices(){
@@ -72,5 +78,19 @@ public class DeviceService {
         }
         deviceRepository.delete(deviceOptional.get());
         return new HashMap<>();
+    }
+
+    public String connectSensorToDevice(UUID deviceId, String sensorId){
+
+        StringBuffer sb = new StringBuffer(sensorId);
+        sb.deleteCharAt(sb.length()-1);
+        sensorId = String.valueOf(sb);
+        
+        Device device = deviceRepository.findById(deviceId).get();
+        Sensor sensor = sensorRepository.findById(UUID.fromString(sensorId)).get();
+        device.setSensor(sensor);
+        sensor.setDevice(device);
+        sensorRepository.save(sensor);
+        return "Successfully connected device to sensor!";
     }
 }

@@ -15,6 +15,7 @@ import Home from "./components/home/Home";
 import Dashboard from "./components/Dashboard";
 import Registration from "./components/Registration";
 import User from "./components/user/User";
+import ConnectSensor from "./components/device/ConnectSensor";
 
 //TODO: validari pentru crud
 
@@ -37,6 +38,8 @@ function App() {
                             <Route path = '/dashboard/devices' render={() => <Devices/>}/>
                             <Route path = '/dashboard/add-device' render={() => <CreateDevice/>}/>
                             <Route path = '/dashboard/update-device/:id' render={() => <UpdateDevice/>}/>
+                            <Route path = '/dashboard/connect-sensor/:id' render={() => <ConnectSensor/>}/>
+
 
                             <Route path = '/dashboard/sensors' render={() => <Sensors/>}/>
                             <Route path = '/dashboard/add-sensor' render={() => <CreateSensor/>}/>

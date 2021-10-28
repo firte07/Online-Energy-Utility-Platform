@@ -36,6 +36,12 @@ public class Sensor implements Serializable{
 
     public Sensor(){}
 
+    public Sensor(UUID id, String description, int maxValue) {
+        this.id_sensor = id;
+        this.description = description;
+        this.maxValue = maxValue;
+    }
+
     public Sensor(String description, int maxValue) {
         this.description = description;
         this.maxValue = maxValue;

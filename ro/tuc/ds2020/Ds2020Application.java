@@ -9,12 +9,17 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.validation.annotation.Validated;
 import ro.tuc.ds2020.controllers.RegistrationController;
 import ro.tuc.ds2020.dtos.CredentialDTO;
+import ro.tuc.ds2020.dtos.DeviceSensorDTO;
 import ro.tuc.ds2020.dtos.PersonDTO;
 import ro.tuc.ds2020.dtos.PersonDetailsDTO;
 import ro.tuc.ds2020.repositories.CredentialRepository;
+import ro.tuc.ds2020.repositories.DeviceRepository;
 import ro.tuc.ds2020.repositories.PersonRepository;
+import ro.tuc.ds2020.repositories.SensorRepository;
 import ro.tuc.ds2020.services.CredentialService;
+import ro.tuc.ds2020.services.DeviceService;
 import ro.tuc.ds2020.services.PersonService;
+import ro.tuc.ds2020.services.SensorService;
 
 import java.util.TimeZone;
 import java.util.UUID;
@@ -32,21 +37,15 @@ public class Ds2020Application extends SpringBootServletInitializer {
         SpringApplication.run(Ds2020Application.class, args);
     }
 
-    /*@Bean
-    public CommandLineRunner mappingDemo(CredentialRepository credentialRepository,
-                                         PersonRepository personRepository) {
+    @Bean
+    public CommandLineRunner mappingDemo(DeviceRepository deviceRepository, SensorRepository sensorRepository) {
         return args -> {
 
-            CredentialService credentialService = new CredentialService(credentialRepository, personRepository);
-            PersonService personService = new PersonService(personRepository);
-            CredentialDTO credentialDTO = new CredentialDTO(UUID.randomUUID(), "macanache2", "12345",
-                    "client");
-            PersonDetailsDTO personDTO = new PersonDetailsDTO(UUID.randomUUID(), "Ionut2", "ange2", 21);
+            /*DeviceService deviceService = new DeviceService(deviceRepository,sensorRepository);
 
-            credentialService.insertCredential(credentialDTO, personDTO, "12345");
+            deviceService.connectSensorToDevice(UUID.fromString("6eaa358a-a642-445a-99d1-49bdba61eae4"),
+                    UUID.fromString("45774962-e6f7-41f6-b940-72ef63fa1943") );*/
 
-            RegistrationController registrationController = new RegistrationController(personService, credentialService);
-            registrationController.register(credentialDTO, personDTO, "12345");
         };
-   }*/
+   }
 }

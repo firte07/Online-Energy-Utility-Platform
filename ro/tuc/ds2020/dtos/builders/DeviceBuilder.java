@@ -17,4 +17,8 @@ public class DeviceBuilder {
     public static Device toEntity(DeviceDTO deviceDTO){
         return new Device(deviceDTO.getDescription(), deviceDTO.getLocation(), deviceDTO.getMaxEnergy(), deviceDTO.getAverageConsumption());
     }
+
+    public static Device toEntityWithId(DeviceDTO deviceDTO){
+        return new Device(deviceDTO.getId(), deviceDTO.getDescription(), deviceDTO.getLocation(), deviceDTO.getMaxEnergy(), deviceDTO.getAverageConsumption());
+    }
 }

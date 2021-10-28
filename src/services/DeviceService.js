@@ -2,7 +2,8 @@ import axios from 'axios';
 import {Host} from '../commons/Host';
 
 const endpoint = {
-    device: '/device'
+    device: '/device',
+    connect: '/connect-sensor'
 };
 
 class DeviceService{
@@ -25,6 +26,10 @@ class DeviceService{
 
     deleteDevice(deviceId){
          return axios.delete(Host.backend_api + endpoint.device + '/' + deviceId);
+    }
+
+    connectSensor(deviceId, idSensor){
+        return axios.post(Host.backend_api + endpoint.device +  endpoint.connect + '/' + deviceId, idSensor);
     }
 }
 

@@ -44,6 +44,14 @@ public class Device implements Serializable{
     public Device(){
     }
 
+    public Device(UUID uuid, String description, String location, int maxEnergy, float averageConsumption) {
+        this.id_device = uuid;
+        this.description = description;
+        this.location = location;
+        this.maxEnergy = maxEnergy;
+        this.averageConsumption = averageConsumption;
+    }
+
     public Device(String description, String location, int maxEnergy, float averageConsumption) {
         this.description = description;
         this.location = location;
