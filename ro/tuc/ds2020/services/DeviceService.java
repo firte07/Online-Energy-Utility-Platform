@@ -81,11 +81,10 @@ public class DeviceService {
     }
 
     public String connectSensorToDevice(UUID deviceId, String sensorId){
-
         StringBuffer sb = new StringBuffer(sensorId);
         sb.deleteCharAt(sb.length()-1);
         sensorId = String.valueOf(sb);
-        
+
         Device device = deviceRepository.findById(deviceId).get();
         Sensor sensor = sensorRepository.findById(UUID.fromString(sensorId)).get();
         device.setSensor(sensor);

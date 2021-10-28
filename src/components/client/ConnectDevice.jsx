@@ -1,36 +1,36 @@
 import React, {Component} from 'react';
-import DeviceService from "../../services/DeviceService";
+import ClientService from "../../services/ClientService";
 import { withRouter } from 'react-router-dom';
 
-class ConnectSensor extends Component {
+class ConnectDevice extends Component {
     constructor(props) {
         super(props);
 
         this.state = {
             id: this.props.match.params.id,
-            idSensor: ''
+            idDevice: ''
         }
 
         this.connect = this.connect.bind(this);
-        this.changeIdSensor = this.changeIdSensor.bind(this);
+        this.changeIdDevice = this.changeIdDevice.bind(this);
     }
 
-    changeIdSensor= (event) => {
-        this.setState({idSensor: event.target.value});
+    changeIdDevice= (event) => {
+        this.setState({idDevice: event.target.value});
     }
 
     connect = (e) =>{
         e.preventDefault();
-        console.log('Device id => ' + JSON.stringify(this.state.id));
-        console.log('Sensor id => ' + JSON.stringify(this.state.idSensor));
+        console.log('Client id => ' + JSON.stringify(this.state.id));
+        console.log('Device id => ' + JSON.stringify(this.state.idDevice));
 
-        DeviceService.connectSensor(this.state.id, this.state.idSensor).then(res => {
-            this.props.history.push('/dashboard/devices');
+        ClientService.connectDevice(this.state.id, this.state.idDevice).then(res => {
+            this.props.history.push('/dashboard/clients');
         });
     }
 
     cancel(){
-        this.props.history.push('/dashboard/devices');
+        this.props.history.push('/dashboard/clients');
     }
 
     render() {
@@ -39,13 +39,13 @@ class ConnectSensor extends Component {
                 <div className = "container">
                     <div className = "row">
                         <div className = "card col-md-6 offset-md-3 offset-md-3">
-                            <h3 className="text-center">Connect device to sensor</h3>
+                            <h3 className="text-center">Connect client to device</h3>
                             <div className = "card-body">
                                 <form>
                                     <div className = "form-group">
-                                        <label> Unique identifier for sensor: </label>
+                                        <label> Unique identifier for device: </label>
                                         <input placeholder="Identifier" name="identifier" className="form-control"
-                                               value={this.state.idSensor} onChange={this.changeIdSensor}/>
+                                               value={this.state.idDevice} onChange={this.changeIdDevice}/>
                                     </div>
 
                                     <button className="btn btn-success" onClick={this.connect}>Connect</button>
@@ -61,4 +61,4 @@ class ConnectSensor extends Component {
     }
 }
 
-export default withRouter(ConnectSensor);
+export default withRouter(ConnectDevice);

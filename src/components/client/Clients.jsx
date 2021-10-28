@@ -15,6 +15,7 @@ class Clients extends Component {
         this.deleteClient = this.deleteClient.bind(this);
         this.updateClient = this.updateClient.bind(this);
         this.goBack = this.goBack.bind(this);
+        this.connectDevice = this.connectDevice.bind(this);
     }
 
     componentDidMount() {
@@ -33,6 +34,10 @@ class Clients extends Component {
 
     updateClient(id){
         this.props.history.push(`/dashboard/update-client/${id}`);
+    }
+
+    connectDevice(id){
+        this.props.history.push(`/dashboard/connect-device/${id}`);
     }
 
     addClient(){
@@ -73,6 +78,7 @@ class Clients extends Component {
                                         <td>
                                             <button onClick= {()=> this.updateClient(client.id) } className= "btn btn-info">Update</button>
                                             <button style = {{marginLeft: "10px"}} onClick= {()=> this.deleteClient(client.id) } className= "btn btn-danger">Delete</button>
+                                            <button style = {{marginLeft: "10px"}} onClick= {()=> this.connectDevice(client.id) } className= "btn btn-success">Connect device</button>
                                         </td>
                                     </tr>
                             )

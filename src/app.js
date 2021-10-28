@@ -16,6 +16,7 @@ import Dashboard from "./components/Dashboard";
 import Registration from "./components/Registration";
 import User from "./components/user/User";
 import ConnectSensor from "./components/device/ConnectSensor";
+import ConnectDevice from "./components/client/ConnectDevice";
 
 //TODO: validari pentru crud
 
@@ -34,6 +35,7 @@ function App() {
                             <Route path = '/dashboard/clients' render={() => <Clients/>}/>
                             <Route path = '/dashboard/add-client' render={() => <CreateClient/>}/>
                             <Route path = '/dashboard/update-client/:id' render={() => <UpdateClient/>}/>
+                            <Route path = '/dashboard/connect-device/:id' render={() => <ConnectDevice/>}/>
 
                             <Route path = '/dashboard/devices' render={() => <Devices/>}/>
                             <Route path = '/dashboard/add-device' render={() => <CreateDevice/>}/>

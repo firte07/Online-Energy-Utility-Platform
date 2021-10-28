@@ -9,7 +9,9 @@ import ro.tuc.ds2020.controllers.handlers.exceptions.model.ResourceNotFoundExcep
 import ro.tuc.ds2020.dtos.PersonDTO;
 import ro.tuc.ds2020.dtos.PersonDetailsDTO;
 import ro.tuc.ds2020.dtos.builders.PersonBuilder;
+import ro.tuc.ds2020.entities.Device;
 import ro.tuc.ds2020.entities.Person;
+import ro.tuc.ds2020.repositories.DeviceRepository;
 import ro.tuc.ds2020.repositories.PersonRepository;
 
 import java.util.*;
@@ -19,9 +21,11 @@ import java.util.stream.Collectors;
 public class PersonService {
     private static final Logger LOGGER = LoggerFactory.getLogger(PersonService.class);
     private final PersonRepository personRepository;
+    private final DeviceRepository deviceRepository;
 
     @Autowired
-    public PersonService(PersonRepository personRepository) {
+    public PersonService(PersonRepository personRepository, DeviceRepository deviceRepository) {
+        this.deviceRepository = deviceRepository;
         this.personRepository = personRepository;
     }
 
@@ -71,5 +75,21 @@ public class PersonService {
         }
         personRepository.delete(person.get());
         return new HashMap<>();
+    }
+
+    public String connectClientToDevice(UUID idClient, String deviceId){
+        System.out.println("Id client    "+idClient);
+        System.out.println("Id device    "+deviceId);
+
+
+        StringBuffer sb = new StringBuffer(deviceId);
+        sb.deleteCharAt(sb.length()-1);
+        deviceId = String.valueOf(sb);
+
+        Person person = personRepository.findById(idClient).get();
+        Device device = deviceRepository.findById(UUID.fromString(deviceId)).get();
+        device.setPerson(person);
+        deviceRepository.save(device);
+        return "Successfully connected client to devices!";
     }
 }

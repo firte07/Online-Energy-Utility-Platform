@@ -64,4 +64,11 @@ public class PersonController {
         response.put("deleted", Boolean.TRUE);
         return ResponseEntity.ok(response);
     }
+
+    @PostMapping(value = "/connect-device/{id}")
+    public ResponseEntity<String> connectSensor(@PathVariable("id") UUID clientId, @Valid @RequestBody  String deviceId){
+
+        String response = personService.connectClientToDevice(clientId,deviceId);
+        return ResponseEntity.ok(response);
+    }
 }

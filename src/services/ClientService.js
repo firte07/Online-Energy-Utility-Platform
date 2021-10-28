@@ -2,7 +2,8 @@ import axios from 'axios';
 import {Host} from '../commons/Host';
 
 const endpoint = {
-    client: '/person'
+    client: '/person',
+    connect: '/connect-device'
 };
 
 class ClientService{
@@ -25,6 +26,10 @@ class ClientService{
 
     deleteClient(clientId){
         return axios.delete(Host.backend_api + endpoint.client + '/' + clientId);
+    }
+
+    connectDevice(clientId, deviceId){
+        return axios.post(Host.backend_api + endpoint.client + endpoint.connect + '/' + clientId, deviceId);
     }
 }
 
