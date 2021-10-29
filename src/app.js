@@ -12,11 +12,13 @@ import Sensors from "./components/sensor/Sensors";
 import CreateSensor from "./components/sensor/CreateSensor";
 import UpdateSensor from "./components/sensor/UpdateSensor";
 import Home from "./components/home/Home";
-import Dashboard from "./components/Dashboard";
-import Registration from "./components/Registration";
+import Dashboard from "./components/dashboard/Dashboard";
+import Registration from "./components/registration/Registration";
 import User from "./components/user/User";
 import ConnectSensor from "./components/device/ConnectSensor";
 import ConnectDevice from "./components/client/ConnectDevice";
+import ViewHistoryConsumption from "./components/user/ViewHistoryConsumption";
+import ViewTodayConsumption from "./components/user/ViewTodayConsumption";
 
 //TODO: validari pentru crud
 
@@ -49,7 +51,10 @@ function App() {
 
                             <Route exact path = '/registration' render={() => <Registration/>}/>
 
-                            <Route exact path = '/user' render={() => <User/>}/>
+                            <Route exact path = '/user/:id' render={() => <User/>}/>
+                            <Route exact path = '/user/view-history-consumption/:id' render={() => <ViewHistoryConsumption/>}/>
+                            <Route exact path = '/user/view-today-consumption/:id' render={() => <ViewTodayConsumption/>}/>
+
                         </Switch>
                     </div>
             </div>

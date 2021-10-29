@@ -12,10 +12,7 @@ import ro.tuc.ds2020.dtos.CredentialDTO;
 import ro.tuc.ds2020.dtos.DeviceSensorDTO;
 import ro.tuc.ds2020.dtos.PersonDTO;
 import ro.tuc.ds2020.dtos.PersonDetailsDTO;
-import ro.tuc.ds2020.repositories.CredentialRepository;
-import ro.tuc.ds2020.repositories.DeviceRepository;
-import ro.tuc.ds2020.repositories.PersonRepository;
-import ro.tuc.ds2020.repositories.SensorRepository;
+import ro.tuc.ds2020.repositories.*;
 import ro.tuc.ds2020.services.CredentialService;
 import ro.tuc.ds2020.services.DeviceService;
 import ro.tuc.ds2020.services.PersonService;
@@ -38,10 +35,12 @@ public class Ds2020Application extends SpringBootServletInitializer {
     }
 
     @Bean
-    public CommandLineRunner mappingDemo(DeviceRepository deviceRepository, SensorRepository sensorRepository) {
+    public CommandLineRunner mappingDemo(DeviceRepository deviceRepository, PersonRepository personRepository,
+                                         SensorRepository sensorRepository, MonitoringRepository monitoringRepository) {
         return args -> {
-
-            /*DeviceService deviceService = new DeviceService(deviceRepository,sensorRepository);
+           PersonService personService = new PersonService(personRepository, deviceRepository, sensorRepository, monitoringRepository);
+            personService.getViewHistory(UUID.fromString("f9632d91-121a-45c1-b8e5-575e820b451b"));
+          /*DeviceService deviceService = new DeviceService(deviceRepository,sensorRepository);
 
             deviceService.connectSensorToDevice(UUID.fromString("6eaa358a-a642-445a-99d1-49bdba61eae4"),
                     UUID.fromString("45774962-e6f7-41f6-b940-72ef63fa1943") );*/

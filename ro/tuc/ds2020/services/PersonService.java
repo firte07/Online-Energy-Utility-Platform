@@ -8,11 +8,16 @@ import org.springframework.stereotype.Service;
 import ro.tuc.ds2020.controllers.handlers.exceptions.model.ResourceNotFoundException;
 import ro.tuc.ds2020.dtos.PersonDTO;
 import ro.tuc.ds2020.dtos.PersonDetailsDTO;
+import ro.tuc.ds2020.dtos.ViewDTO;
 import ro.tuc.ds2020.dtos.builders.PersonBuilder;
 import ro.tuc.ds2020.entities.Device;
+import ro.tuc.ds2020.entities.Monitoring;
 import ro.tuc.ds2020.entities.Person;
+import ro.tuc.ds2020.entities.Sensor;
 import ro.tuc.ds2020.repositories.DeviceRepository;
+import ro.tuc.ds2020.repositories.MonitoringRepository;
 import ro.tuc.ds2020.repositories.PersonRepository;
+import ro.tuc.ds2020.repositories.SensorRepository;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -22,11 +27,16 @@ public class PersonService {
     private static final Logger LOGGER = LoggerFactory.getLogger(PersonService.class);
     private final PersonRepository personRepository;
     private final DeviceRepository deviceRepository;
+    private final SensorRepository sensorRepository;
+    private final MonitoringRepository monitoringRepository;
 
     @Autowired
-    public PersonService(PersonRepository personRepository, DeviceRepository deviceRepository) {
+    public PersonService(PersonRepository personRepository, DeviceRepository deviceRepository,
+                         SensorRepository sensorRepository, MonitoringRepository monitoringRepository) {
         this.deviceRepository = deviceRepository;
         this.personRepository = personRepository;
+        this.sensorRepository = sensorRepository;
+        this.monitoringRepository = monitoringRepository;
     }
 
     public List<PersonDTO> findPersons() {
@@ -81,7 +91,6 @@ public class PersonService {
         System.out.println("Id client    "+idClient);
         System.out.println("Id device    "+deviceId);
 
-
         StringBuffer sb = new StringBuffer(deviceId);
         sb.deleteCharAt(sb.length()-1);
         deviceId = String.valueOf(sb);
@@ -91,5 +100,106 @@ public class PersonService {
         device.setPerson(person);
         deviceRepository.save(device);
         return "Successfully connected client to devices!";
+    }
+
+    private List<Monitoring> getAllMonitoringBySensorExceptToday(Sensor sensor){
+        List<Monitoring> monitorings = monitoringRepository.findBySensor(sensor);
+        List<Monitoring> copy = new ArrayList<>(monitorings);
+        System.out.println(monitorings);
+        for(Monitoring monitoring: monitorings){
+            //TODO: change to local date time now after implemenetd
+            if(monitoring.getTemp().getMonthValue() == 10 && monitoring.getTemp().getDayOfMonth() == 29){
+                copy.remove(monitoring);
+            }
+        }
+        System.out.println(copy);
+        return copy;
+    }
+
+
+    private Monitoring getMonitoringFromToday(Sensor sensor){
+        List<Monitoring> monitorings = monitoringRepository.findBySensor(sensor);
+        for(Monitoring monitoring: monitorings){
+            //TODO: change to local date time now after implemenetd
+            if(monitoring.getTemp().getMonthValue() == 10 && monitoring.getTemp().getDayOfMonth() == 29){
+               return monitoring;
+            }
+        }
+        return null;
+    }
+
+    private float findAverage(List<Monitoring> monitorings){
+        float sum = 0;
+        for(Monitoring monitoring: monitorings){
+            sum+=monitoring.getValue();
+        }
+        return sum/monitorings.size();
+    }
+
+    private int findMaxValueForEnergy(List<Monitoring> monitorings){
+        int maxValue = 0;
+        for(Monitoring monitoring: monitorings){
+            if(maxValue < monitoring.getValue())
+                maxValue = (int)monitoring.getValue();
+        }
+        return maxValue;
+    }
+
+    private float totalConsumption(List<Monitoring> monitorings){
+        float sum = 0;
+        for(Monitoring monitoring: monitorings){
+            sum+=monitoring.getValue();
+        }
+        return sum;
+    }
+
+    public List<ViewDTO> getViewHistory(UUID clientId) {
+        Person person = personRepository.findById(clientId).get();
+        List<Device> devices = deviceRepository.findByIdClient(person);
+        List<ViewDTO> viewDTOS = new ArrayList<>();
+        System.out.println(devices);
+        for(Device device: devices){
+            ViewDTO viewDTO = new ViewDTO();
+            viewDTO.setId(UUID.randomUUID());
+            viewDTO.setDeviceDescription(device.getDescription());
+            viewDTO.setLocation(device.getLocation());
+
+            Sensor sensor = sensorRepository.findByDevice(device);
+            System.out.println(sensor);
+            viewDTO.setSensorDescription(sensor.getDescription());
+            viewDTO.setMaxValueSensor(sensor.getMaxValue());
+
+            List<Monitoring> monitorings = this.getAllMonitoringBySensorExceptToday(sensor);
+            viewDTO.setAverageConsumption(this.findAverage(monitorings));
+            viewDTO.setMaxEnergy(this.findMaxValueForEnergy(monitorings));
+            viewDTO.setTotalConsumption(this.totalConsumption(monitorings));
+
+            viewDTOS.add(viewDTO);
+        }
+        return viewDTOS;
+    }
+
+    public List<ViewDTO> getViewToday(UUID clientId) {
+        Person person = personRepository.findById(clientId).get();
+        List<Device> devices = deviceRepository.findByIdClient(person);
+        List<ViewDTO> viewDTOS = new ArrayList<>();
+        System.out.println(devices);
+        for(Device device: devices){
+            ViewDTO viewDTO = new ViewDTO();
+            viewDTO.setId(UUID.randomUUID());
+            viewDTO.setDeviceDescription(device.getDescription());
+            viewDTO.setLocation(device.getLocation());
+
+            Sensor sensor = sensorRepository.findByDevice(device);
+            System.out.println(sensor);
+            viewDTO.setSensorDescription(sensor.getDescription());
+            viewDTO.setMaxValueSensor(sensor.getMaxValue());
+
+            Monitoring monitoring = this.getMonitoringFromToday(sensor);
+            viewDTO.setTotalConsumption(monitoring.getValue());
+
+            viewDTOS.add(viewDTO);
+        }
+        return viewDTOS;
     }
 }

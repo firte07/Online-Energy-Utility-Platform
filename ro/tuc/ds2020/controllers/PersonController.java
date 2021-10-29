@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ro.tuc.ds2020.dtos.PersonDTO;
 import ro.tuc.ds2020.dtos.PersonDetailsDTO;
+import ro.tuc.ds2020.dtos.ViewDTO;
 import ro.tuc.ds2020.services.PersonService;
 
 import javax.validation.Valid;
@@ -70,5 +71,17 @@ public class PersonController {
 
         String response = personService.connectClientToDevice(clientId,deviceId);
         return ResponseEntity.ok(response);
+    }
+
+    @GetMapping(value = "/view-history/{id}")
+    public ResponseEntity<List<ViewDTO>> getViewHistory(@PathVariable("id") UUID clientId) {
+        List<ViewDTO> viewDTOS = personService.getViewHistory(clientId);
+        return new ResponseEntity<>(viewDTOS, HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/view-today/{id}")
+    public ResponseEntity<List<ViewDTO>> getViewToday(@PathVariable("id") UUID clientId) {
+        List<ViewDTO> viewDTOS = personService.getViewToday(clientId);
+        return new ResponseEntity<>(viewDTOS, HttpStatus.OK);
     }
 }

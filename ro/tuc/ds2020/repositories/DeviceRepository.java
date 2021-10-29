@@ -1,11 +1,13 @@
 package ro.tuc.ds2020.repositories;
 
+import jdk.nashorn.internal.objects.annotations.Getter;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import ro.tuc.ds2020.entities.Device;
+import ro.tuc.ds2020.entities.Person;
 
 import javax.transaction.Transactional;
 import java.util.List;
@@ -28,4 +30,7 @@ public interface DeviceRepository extends JpaRepository<Device, UUID> {
     @Query(value = "DELETE FROM Device " +
             "WHERE id_device = :idDevice")
     void deleteDeviceById(@Param("idDevice") UUID idDevice);
+
+    @Query(value = "SELECT d FROM Device d WHERE d.person= :person")
+    List<Device> findByIdClient(Person person);
 }
