@@ -28,11 +28,14 @@ class Home extends Component {
     login = (e) => {
         e.preventDefault();
         let credential = {username: this.state.username, password: this.state.password};
-        console.log('credential => ' + JSON.stringify(credential));
 
         RegistrationService.login(credential).then(res => {
             if(res.data === 'client'){
-                this.props.history.push('/user');
+                console.log('Ajunge aici 1  =>' + JSON.stringify(this.state.username));
+                let username = {username: this.state.username}
+                RegistrationService.getIdClient(username).then(res => {
+                    this.props.history.push('/user/' + res.data);
+                });
             }else if(res.data === 'admin'){
                 this.props.history.push('/dashboard');
             }else{

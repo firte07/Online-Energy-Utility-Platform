@@ -36,14 +36,17 @@ public class Ds2020Application extends SpringBootServletInitializer {
 
     @Bean
     public CommandLineRunner mappingDemo(DeviceRepository deviceRepository, PersonRepository personRepository,
-                                         SensorRepository sensorRepository, MonitoringRepository monitoringRepository) {
+                                         CredentialRepository credentialRepository, SensorRepository sensorRepository,
+                                         MonitoringRepository monitoringRepository) {
         return args -> {
-           PersonService personService = new PersonService(personRepository, deviceRepository, sensorRepository, monitoringRepository);
-            personService.getViewHistory(UUID.fromString("f9632d91-121a-45c1-b8e5-575e820b451b"));
-          /*DeviceService deviceService = new DeviceService(deviceRepository,sensorRepository);
+            PersonService personService = new PersonService(personRepository, deviceRepository, sensorRepository, monitoringRepository);
+            personService.getViewHistory(UUID.fromString("574589db-b208-4ac8-aee0-70e2f9c7aef8"));
+          // CredentialService credentialService = new CredentialService(credentialRepository, personRepository);
+          // System.out.println(credentialService.getIdClientAfterRegistration("ion"));
+          //DeviceService deviceService = new DeviceService(deviceRepository,sensorRepository);
 
-            deviceService.connectSensorToDevice(UUID.fromString("6eaa358a-a642-445a-99d1-49bdba61eae4"),
-                    UUID.fromString("45774962-e6f7-41f6-b940-72ef63fa1943") );*/
+          //  deviceService.connectSensorToDevice(UUID.fromString("6eaa358a-a642-445a-99d1-49bdba61eae4"),
+          //          UUID.fromString("45774962-e6f7-41f6-b940-72ef63fa1943") );*/
 
         };
    }

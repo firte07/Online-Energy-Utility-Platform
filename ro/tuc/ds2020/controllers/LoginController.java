@@ -11,6 +11,7 @@ import ro.tuc.ds2020.services.CredentialService;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.UUID;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;

@@ -1,5 +1,6 @@
 package ro.tuc.ds2020.controllers;
 
+import jdk.nashorn.internal.objects.annotations.Getter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -44,5 +45,12 @@ public class RegistrationController {
 
         PersonDTO registerPersonDTO = credentialService.insertCredential(credentialDTO, personDTO);
         return new ResponseEntity<>(registerPersonDTO, HttpStatus.OK);
+    }
+
+    @PostMapping(value = "/find-id")
+    public ResponseEntity<UUID> getIdClientAfterRegistration(@Valid @RequestBody CredentialDTO credentialDTO){
+        System.out.println("Aici username:   " + credentialDTO.getUsername());
+
+        return new ResponseEntity<>(credentialService.getIdClientAfterRegistration(credentialDTO.getUsername()),HttpStatus.OK);
     }
 }

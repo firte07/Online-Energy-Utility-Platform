@@ -12,7 +12,7 @@ class Dashboard extends Component {
         this.viewClients = this.viewClients.bind(this);
         this.viewDevices = this.viewDevices.bind(this);
         this.viewSensors = this.viewSensors.bind(this);
-
+        this.goBack = this.goBack.bind(this);
     }
 
 
@@ -28,6 +28,10 @@ class Dashboard extends Component {
         this.props.history.push('/dashboard/devices');
     }
 
+    goBack(){
+        this.props.history.push('/');
+    }
+
     render() {
         return (
             <div>
@@ -37,6 +41,9 @@ class Dashboard extends Component {
                         <button className="btn btn-info" onClick={this.viewClients}>Clients</button>
                         <button className="btn btn-info" onClick={this.viewSensors} style={{marginLeft: "10px"}}>Sensors</button>
                         <button className="btn btn-info" onClick={this.viewDevices} style={{marginLeft: "10px"}}>Devices</button>
+                        <br/>
+                        <br/>
+                        <button className="btn btn-danger" onClick={this.goBack}>Log out</button>
                     </div>
                 </div>
             </div>

@@ -57,4 +57,9 @@ public class CredentialService {
         }
         return "Login failed";
     }
+
+    public UUID getIdClientAfterRegistration(String username){
+        Person person = personRepository.findPersonByCredential(credentialRepository.findCredentialByUsername(username));
+        return person.getId();
+    }
 }

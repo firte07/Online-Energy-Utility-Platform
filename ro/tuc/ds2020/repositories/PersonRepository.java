@@ -4,6 +4,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+import ro.tuc.ds2020.entities.Credential;
 import ro.tuc.ds2020.entities.Person;
 
 import javax.transaction.Transactional;
@@ -46,4 +47,7 @@ public interface PersonRepository extends JpaRepository<Person, UUID> {
     @Query(value = "DELETE FROM Person " +
             "WHERE id_person = :idPerson")
     void deletePersonById(@Param("idPerson") UUID idPerson);
+
+    @Query(value = "SELECT p FROM Person p WHERE p.credential= :credential")
+    Person findPersonByCredential(Credential credential);
 }

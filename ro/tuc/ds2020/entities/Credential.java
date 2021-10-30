@@ -20,7 +20,7 @@ public class Credential implements Serializable{
     private UUID id_credential;
 
 
-    @Column(name = "username")
+    @Column(name = "username", unique = true)
     private String username;
 
     @Column(name = "password")

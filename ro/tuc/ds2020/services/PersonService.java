@@ -19,6 +19,7 @@ import ro.tuc.ds2020.repositories.MonitoringRepository;
 import ro.tuc.ds2020.repositories.PersonRepository;
 import ro.tuc.ds2020.repositories.SensorRepository;
 
+import javax.sound.sampled.FloatControl;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -128,36 +129,57 @@ public class PersonService {
         return null;
     }
 
-    private float findAverage(List<Monitoring> monitorings){
-        float sum = 0;
-        for(Monitoring monitoring: monitorings){
-            sum+=monitoring.getValue();
+    private List<Float> getValues(List<Monitoring> monitorings){
+        List<Float> values = new ArrayList<>();
+        List<Monitoring> sortedList = monitorings.stream()
+                .sorted(Comparator.comparing(Monitoring :: getValue))
+                .collect(Collectors.toList());
+        List<Monitoring> copy = new ArrayList<>(sortedList);
+        float lastValue = monitorings.get(0).getValue();
+        float currentValue = 0;
+        values.add(monitorings.get(0).getValue());
+        copy.remove(0);
+
+        for(Monitoring monitoring: copy){
+            currentValue = monitoring.getValue();
+            values.add(currentValue - lastValue);
+            lastValue = currentValue;
         }
-        return sum/monitorings.size();
+        return values;
+    }
+
+    private float findAverage(List<Monitoring> monitorings){
+        List<Float> values = this.getValues(monitorings);
+        float sum = 0;
+        for(Float value: values){
+            sum+=value;
+        }
+        return sum/values.size();
     }
 
     private int findMaxValueForEnergy(List<Monitoring> monitorings){
         int maxValue = 0;
-        for(Monitoring monitoring: monitorings){
-            if(maxValue < monitoring.getValue())
-                maxValue = (int)monitoring.getValue();
+        List<Float> values = this.getValues(monitorings);
+        for(Float value: values){
+            if(maxValue < value)
+                maxValue = value.intValue();
         }
         return maxValue;
     }
 
     private float totalConsumption(List<Monitoring> monitorings){
-        float sum = 0;
-        for(Monitoring monitoring: monitorings){
-            sum+=monitoring.getValue();
-        }
-        return sum;
+        List<Monitoring> sortedList = monitorings.stream()
+                .sorted(Comparator.comparing(Monitoring :: getValue))
+                .collect(Collectors.toList());
+        System.out.println(sortedList);
+
+        return sortedList.get(sortedList.size() - 1).getValue();
     }
 
     public List<ViewDTO> getViewHistory(UUID clientId) {
         Person person = personRepository.findById(clientId).get();
         List<Device> devices = deviceRepository.findByIdClient(person);
         List<ViewDTO> viewDTOS = new ArrayList<>();
-        System.out.println(devices);
         for(Device device: devices){
             ViewDTO viewDTO = new ViewDTO();
             viewDTO.setId(UUID.randomUUID());
@@ -165,13 +187,19 @@ public class PersonService {
             viewDTO.setLocation(device.getLocation());
 
             Sensor sensor = sensorRepository.findByDevice(device);
-            System.out.println(sensor);
             viewDTO.setSensorDescription(sensor.getDescription());
             viewDTO.setMaxValueSensor(sensor.getMaxValue());
 
             List<Monitoring> monitorings = this.getAllMonitoringBySensorExceptToday(sensor);
+            //TODO: actualizat average si max
             viewDTO.setAverageConsumption(this.findAverage(monitorings));
+            device.setAverageConsumption(viewDTO.getAverageConsumption());
+
             viewDTO.setMaxEnergy(this.findMaxValueForEnergy(monitorings));
+            device.setMaxEnergy(viewDTO.getMaxEnergy());
+
+            deviceRepository.save(device);
+
             viewDTO.setTotalConsumption(this.totalConsumption(monitorings));
 
             viewDTOS.add(viewDTO);
@@ -183,7 +211,6 @@ public class PersonService {
         Person person = personRepository.findById(clientId).get();
         List<Device> devices = deviceRepository.findByIdClient(person);
         List<ViewDTO> viewDTOS = new ArrayList<>();
-        System.out.println(devices);
         for(Device device: devices){
             ViewDTO viewDTO = new ViewDTO();
             viewDTO.setId(UUID.randomUUID());
@@ -191,7 +218,6 @@ public class PersonService {
             viewDTO.setLocation(device.getLocation());
 
             Sensor sensor = sensorRepository.findByDevice(device);
-            System.out.println(sensor);
             viewDTO.setSensorDescription(sensor.getDescription());
             viewDTO.setMaxValueSensor(sensor.getMaxValue());
 

@@ -19,6 +19,7 @@ import ConnectSensor from "./components/device/ConnectSensor";
 import ConnectDevice from "./components/client/ConnectDevice";
 import ViewHistoryConsumption from "./components/user/ViewHistoryConsumption";
 import ViewTodayConsumption from "./components/user/ViewTodayConsumption";
+import Chart from "./components/user/Chart";
 
 //TODO: validari pentru crud
 
@@ -54,7 +55,7 @@ function App() {
                             <Route exact path = '/user/:id' render={() => <User/>}/>
                             <Route exact path = '/user/view-history-consumption/:id' render={() => <ViewHistoryConsumption/>}/>
                             <Route exact path = '/user/view-today-consumption/:id' render={() => <ViewTodayConsumption/>}/>
-
+                            <Route exact path = '/user/chart/:id' render={() => <Chart/>}/>
                         </Switch>
                     </div>
             </div>

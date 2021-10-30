@@ -12,6 +12,7 @@ class User extends Component {
         this.viewHistoryConsumption = this.viewHistoryConsumption.bind(this);
         this.viewTodayConsumption = this.viewTodayConsumption.bind(this);
         this.viewChart = this.viewChart.bind(this);
+        this.goBack = this.goBack.bind(this);
     }
 
 
@@ -24,7 +25,11 @@ class User extends Component {
     }
 
     viewChart(){
-        //this.props.history.push('/dashboard/devices');
+        this.props.history.push('/user/chart/' + this.state.id);
+    }
+
+    goBack(){
+        this.props.history.push('/');
     }
 
     render() {
@@ -35,7 +40,10 @@ class User extends Component {
                     <div className = "card-body">
                         <button className="btn btn-info" onClick={this.viewHistoryConsumption}>View history consumption</button>
                         <button className="btn btn-info" onClick={this.viewTodayConsumption} style={{marginLeft: "10px"}}>View today consumption</button>
-                        <button className="btn btn-info" onClick={this.viewChart} style={{marginLeft: "10px"}}>View today</button>
+                        <button className="btn btn-info" onClick={this.viewChart} style={{marginLeft: "10px"}}>View chart</button>
+                        <br/>
+                        <br/>
+                        <button className="btn btn-danger" onClick={this.goBack}>Log out</button>
                     </div>
                 </div>
             </div>
