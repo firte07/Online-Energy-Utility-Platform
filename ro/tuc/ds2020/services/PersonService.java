@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import ro.tuc.ds2020.controllers.handlers.exceptions.model.ResourceNotFoundException;
 import ro.tuc.ds2020.dtos.PersonDTO;
 import ro.tuc.ds2020.dtos.PersonDetailsDTO;
+import ro.tuc.ds2020.dtos.TimeDTO;
 import ro.tuc.ds2020.dtos.ViewDTO;
 import ro.tuc.ds2020.dtos.builders.PersonBuilder;
 import ro.tuc.ds2020.entities.Device;
@@ -18,8 +19,10 @@ import ro.tuc.ds2020.repositories.DeviceRepository;
 import ro.tuc.ds2020.repositories.MonitoringRepository;
 import ro.tuc.ds2020.repositories.PersonRepository;
 import ro.tuc.ds2020.repositories.SensorRepository;
+import sun.rmi.runtime.NewThreadAction;
 
 import javax.sound.sampled.FloatControl;
+import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -228,4 +231,82 @@ public class PersonService {
         }
         return viewDTOS;
     }
+
+
+    private List<Monitoring> getAllMonitoringFromASpecificDay(LocalDateTime temp, Sensor sensor) {
+        List<Monitoring> monitorings = monitoringRepository.findBySensor(sensor);
+        List<Monitoring> specificDayMonitorings = new ArrayList<>();
+
+        for(Monitoring monitoring: monitorings){
+            if(monitoring.getTemp().getDayOfMonth() == temp.getDayOfMonth() &&
+            monitoring.getTemp().getMonthValue() == temp.getMonthValue() &&
+            monitoring.getTemp().getYear() == temp.getYear())
+                specificDayMonitorings.add(monitoring);
+        }
+        return specificDayMonitorings;
+    }
+
+    private List<Float> consumptionPerHour(List<Monitoring> monitorings){
+        List<Float> consumptionPerHour = new ArrayList<>();
+        int index = 0;
+        float lastConsumption = 0;
+        for(int counter = 0; counter < 24; counter ++){
+            if(index < monitorings.size() &&
+               monitorings.get(index).getTemp().getHour() == counter){
+                consumptionPerHour.add(monitorings.get(index).getValue());
+                lastConsumption = monitorings.get(index).getValue();
+                index++;
+            }else{
+                consumptionPerHour.add(lastConsumption);
+            }
+        }
+        return consumptionPerHour;
+    }
+
+    private List<Float> processingConsumptionPerHour(List<Float> values){
+        List<Float> consumptionOnEachHour = new ArrayList<>();
+        consumptionOnEachHour.add(values.get(0));
+        for(int i=1; i<24; i++){
+            if(values.get(i-1) == values.get(i)){
+              consumptionOnEachHour.add((float)0.0);
+            }else{
+                consumptionOnEachHour.add(values.get(i) - values.get(i-1));
+            }
+        }
+        return consumptionOnEachHour;
+    }
+
+    private List<Float> finalProcessing(List<Float> finalConsumption, List<Float> values){
+        for(int i=0;i<24;i++){
+            Float currentValue = finalConsumption.get(0);
+            finalConsumption.remove(0);
+            currentValue+=values.get(i);
+            finalConsumption.add(currentValue);
+        }
+        return finalConsumption;
+    }
+
+    public List<Float> eachDayConsumption(UUID clientId, TimeDTO timeDTO) {
+        Person person = personRepository.findById(clientId).get();
+        List<Device> devices = deviceRepository.findByIdClient(person);
+        List<Float> consumptionPerHour = new ArrayList<>();
+        List<Float> finalConsumptionPerHour = new ArrayList<>();
+        for(int i =0; i<24; i++){
+            finalConsumptionPerHour.add((float)0.0);
+        }
+        for(Device device: devices){
+            Sensor sensor = sensorRepository.findByDevice(device);
+            List<Monitoring> monitoringsFromSpecificDay = this.getAllMonitoringFromASpecificDay(timeDTO.getTemp(), sensor);
+            List<Monitoring> sortedList = monitoringsFromSpecificDay.stream()
+                    .sorted(Comparator.comparing(Monitoring :: getValue))
+                    .collect(Collectors.toList());
+            consumptionPerHour = this.consumptionPerHour(sortedList);
+            consumptionPerHour = this.processingConsumptionPerHour(consumptionPerHour);
+            finalConsumptionPerHour = this.finalProcessing(finalConsumptionPerHour, consumptionPerHour);
+        }
+
+        return finalConsumptionPerHour;
+    }
+
+
 }

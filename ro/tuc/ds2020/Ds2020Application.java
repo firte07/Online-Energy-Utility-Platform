@@ -8,16 +8,14 @@ import org.springframework.boot.web.servlet.support.SpringBootServletInitializer
 import org.springframework.context.annotation.Bean;
 import org.springframework.validation.annotation.Validated;
 import ro.tuc.ds2020.controllers.RegistrationController;
-import ro.tuc.ds2020.dtos.CredentialDTO;
-import ro.tuc.ds2020.dtos.DeviceSensorDTO;
-import ro.tuc.ds2020.dtos.PersonDTO;
-import ro.tuc.ds2020.dtos.PersonDetailsDTO;
+import ro.tuc.ds2020.dtos.*;
 import ro.tuc.ds2020.repositories.*;
 import ro.tuc.ds2020.services.CredentialService;
 import ro.tuc.ds2020.services.DeviceService;
 import ro.tuc.ds2020.services.PersonService;
 import ro.tuc.ds2020.services.SensorService;
 
+import java.time.LocalDateTime;
 import java.util.TimeZone;
 import java.util.UUID;
 
@@ -39,9 +37,12 @@ public class Ds2020Application extends SpringBootServletInitializer {
                                          CredentialRepository credentialRepository, SensorRepository sensorRepository,
                                          MonitoringRepository monitoringRepository) {
         return args -> {
-            PersonService personService = new PersonService(personRepository, deviceRepository, sensorRepository, monitoringRepository);
-            personService.getViewHistory(UUID.fromString("574589db-b208-4ac8-aee0-70e2f9c7aef8"));
-          // CredentialService credentialService = new CredentialService(credentialRepository, personRepository);
+        /*    PersonService personService = new PersonService(personRepository, deviceRepository, sensorRepository, monitoringRepository);
+            LocalDateTime localDateTime = LocalDateTime.of(2021, 10, 28, 10, 0);
+            TimeDTO timeDTO = new TimeDTO();
+            timeDTO.setTemp(localDateTime);
+            personService.eachDayConsumption(UUID.fromString("f9632d91-121a-45c1-b8e5-575e820b451b"), timeDTO);
+      */    // CredentialService credentialService = new CredentialService(credentialRepository, personRepository);
           // System.out.println(credentialService.getIdClientAfterRegistration("ion"));
           //DeviceService deviceService = new DeviceService(deviceRepository,sensorRepository);
 

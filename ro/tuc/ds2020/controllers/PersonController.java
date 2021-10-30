@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ro.tuc.ds2020.dtos.PersonDTO;
 import ro.tuc.ds2020.dtos.PersonDetailsDTO;
+import ro.tuc.ds2020.dtos.TimeDTO;
 import ro.tuc.ds2020.dtos.ViewDTO;
 import ro.tuc.ds2020.services.PersonService;
 
@@ -83,5 +84,11 @@ public class PersonController {
     public ResponseEntity<List<ViewDTO>> getViewToday(@PathVariable("id") UUID clientId) {
         List<ViewDTO> viewDTOS = personService.getViewToday(clientId);
         return new ResponseEntity<>(viewDTOS, HttpStatus.OK);
+    }
+
+    @PostMapping(value = "/chart/{id}")
+    public ResponseEntity<List<Float>> getChart(@PathVariable("id") UUID clientId, @Valid @RequestBody TimeDTO timeDTO){
+        List<Float> eachDayConsumption = personService.eachDayConsumption(clientId, timeDTO);
+        return new ResponseEntity<>(eachDayConsumption, HttpStatus.OK);
     }
 }
