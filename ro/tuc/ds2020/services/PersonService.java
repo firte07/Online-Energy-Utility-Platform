@@ -295,7 +295,7 @@ public class PersonService {
             finalConsumptionPerHour.add((float)0.0);
         }
         for(Device device: devices){
-            Sensor sensor = sensorRepository.findByDevice(device);
+           /* Sensor sensor = sensorRepository.findByDevice(device);
             List<Monitoring> monitoringsFromSpecificDay = this.getAllMonitoringFromASpecificDay(timeDTO.getTemp(), sensor);
             List<Monitoring> sortedList = monitoringsFromSpecificDay.stream()
                     .sorted(Comparator.comparing(Monitoring :: getValue))
@@ -303,7 +303,7 @@ public class PersonService {
             consumptionPerHour = this.consumptionPerHour(sortedList);
             consumptionPerHour = this.processingConsumptionPerHour(consumptionPerHour);
             finalConsumptionPerHour = this.finalProcessing(finalConsumptionPerHour, consumptionPerHour);
-        }
+      */  }
 
         return finalConsumptionPerHour;
     }

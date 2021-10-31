@@ -18,10 +18,9 @@ class RegistrationService{
         return axios.put(Host.backend_api, credentials);
     }
 
-        //TODO: CHANGE
     getIdClient(username){
         console.log('username 1 =>' + JSON.stringify(username));
-        return axios.post("http://localhost:8080/registration/find-id", username);
+        return axios.post(Host.backend_api + endpoint.registration + endpoint.find, username);
     }
 
 }

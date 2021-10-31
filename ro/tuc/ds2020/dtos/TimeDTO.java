@@ -2,26 +2,31 @@ package ro.tuc.ds2020.dtos;
 
 import org.springframework.hateoas.RepresentationModel;
 
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import java.sql.Time;
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
 public class TimeDTO extends RepresentationModel<TimeDTO> {
-    private LocalDateTime temp;
+
+    @Temporal(value = TemporalType.TIMESTAMP)
+    private Timestamp date;
 
     public TimeDTO() {
     }
 
-    public TimeDTO(LocalDateTime temp) {
-        this.temp = temp;
+    public TimeDTO(Timestamp temp) {
+        this.date = temp;
     }
 
-    public LocalDateTime getTemp() {
-        return temp;
+    public Timestamp getTemp() {
+        return date;
     }
 
-    public void setTemp(LocalDateTime temp) {
-        this.temp = temp;
+    public void setTemp(Timestamp temp) {
+        this.date = temp;
     }
 
 }

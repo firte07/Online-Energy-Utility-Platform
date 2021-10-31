@@ -5,7 +5,8 @@ const endpoint = {
     client: '/person',
     connect: '/connect-device',
     userHistory: '/view-history',
-    userToday: '/view-today'
+    userToday: '/view-today',
+    chart: '/chart'
 };
 
 class ClientService{
@@ -40,6 +41,11 @@ class ClientService{
 
     getViewToday(clientId){
         return axios.get(Host.backend_api + endpoint.client + endpoint.userToday + '/' + clientId);
+    }
+
+    getChart(clientId, date){
+        console.log('date 4 => ' + JSON.stringify(date));
+        return axios.put(Host.backend_api + endpoint.client + endpoint.chart + '/' + clientId, date);
     }
 }
 

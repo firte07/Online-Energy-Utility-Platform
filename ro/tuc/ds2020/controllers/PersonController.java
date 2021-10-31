@@ -5,13 +5,11 @@ import org.springframework.hateoas.Link;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import ro.tuc.ds2020.dtos.PersonDTO;
-import ro.tuc.ds2020.dtos.PersonDetailsDTO;
-import ro.tuc.ds2020.dtos.TimeDTO;
-import ro.tuc.ds2020.dtos.ViewDTO;
+import ro.tuc.ds2020.dtos.*;
 import ro.tuc.ds2020.services.PersonService;
 
 import javax.validation.Valid;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -86,9 +84,12 @@ public class PersonController {
         return new ResponseEntity<>(viewDTOS, HttpStatus.OK);
     }
 
-    @PostMapping(value = "/chart/{id}")
-    public ResponseEntity<List<Float>> getChart(@PathVariable("id") UUID clientId, @Valid @RequestBody TimeDTO timeDTO){
-        List<Float> eachDayConsumption = personService.eachDayConsumption(clientId, timeDTO);
-        return new ResponseEntity<>(eachDayConsumption, HttpStatus.OK);
+    @PutMapping(value = "/chart/{id}")
+    public ResponseEntity<List<Float>> getChart(@PathVariable("id") UUID clientId, TimeStringDTO timeStringDTO){
+        System.out.println("Id e: " + clientId);
+        System.out.println("Data e: " + timeStringDTO.getTemp());
+
+        //List<Float> eachDayConsumption = personService.eachDayConsumption(clientId, timeDTO);
+        return new ResponseEntity<>(new ArrayList<Float>(), HttpStatus.OK);
     }
 }
