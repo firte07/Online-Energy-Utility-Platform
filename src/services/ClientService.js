@@ -44,8 +44,8 @@ class ClientService{
     }
 
     getChart(clientId, date){
-        console.log('date 4 => ' + JSON.stringify(date));
-        return axios.put(Host.backend_api + endpoint.client + endpoint.chart + '/' + clientId, date);
+        console.log('date service => ' + date);
+        return axios.post(Host.backend_api + endpoint.client + endpoint.chart + '/' + clientId, date);
     }
 }
 

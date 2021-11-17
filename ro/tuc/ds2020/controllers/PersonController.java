@@ -9,6 +9,8 @@ import ro.tuc.ds2020.dtos.*;
 import ro.tuc.ds2020.services.PersonService;
 
 import javax.validation.Valid;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -84,12 +86,20 @@ public class PersonController {
         return new ResponseEntity<>(viewDTOS, HttpStatus.OK);
     }
 
-    @PutMapping(value = "/chart/{id}")
-    public ResponseEntity<List<Float>> getChart(@PathVariable("id") UUID clientId, TimeStringDTO timeStringDTO){
+    @PostMapping(value = "/chart/{id}")
+    public ResponseEntity<List<ValuesDTO>> getChart(@PathVariable("id") UUID clientId, @Valid @RequestBody String timeDTO){
         System.out.println("Id e: " + clientId);
-        System.out.println("Data e: " + timeStringDTO.getTemp());
+        System.out.println("Data e: " + timeDTO);
 
-        //List<Float> eachDayConsumption = personService.eachDayConsumption(clientId, timeDTO);
-        return new ResponseEntity<>(new ArrayList<Float>(), HttpStatus.OK);
+
+        List<Float> eachDayConsumption = personService.eachDayConsumption(clientId, timeDTO);
+        List<ValuesDTO> valuesDTOS = new ArrayList<>();
+        for(Float f: eachDayConsumption){
+            ValuesDTO valuesDTO = new ValuesDTO();
+            valuesDTO.setValue(f);
+            valuesDTOS.add(valuesDTO);
+        }
+        System.out.println(valuesDTOS.get(12).getValue());
+        return new ResponseEntity<>(valuesDTOS, HttpStatus.OK);
     }
 }

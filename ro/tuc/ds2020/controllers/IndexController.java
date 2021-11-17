@@ -11,6 +11,6 @@ public class IndexController {
 
     @GetMapping(value = "/")
     public ResponseEntity<String> getStatus() {
-        return new ResponseEntity<>("Aici va fi un login...sper", HttpStatus.OK);
+        return new ResponseEntity<>("Index. Good", HttpStatus.OK);
     }
 }

@@ -12,20 +12,20 @@ import java.util.UUID;
 public class TimeDTO extends RepresentationModel<TimeDTO> {
 
     @Temporal(value = TemporalType.TIMESTAMP)
-    private Timestamp date;
+    private LocalDateTime date;
 
     public TimeDTO() {
     }
 
-    public TimeDTO(Timestamp temp) {
+    public TimeDTO(LocalDateTime temp) {
         this.date = temp;
     }
 
-    public Timestamp getTemp() {
+    public LocalDateTime getTemp() {
         return date;
     }
 
-    public void setTemp(Timestamp temp) {
+    public void setTemp(LocalDateTime temp) {
         this.date = temp;
     }
 

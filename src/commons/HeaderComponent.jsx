@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import icon from '../icon.png'
-import { NavbarBrand } from 'reactstrap';
+import {Link} from "react-router-dom";
 
 class HeaderComponent extends Component {
     constructor(props) {
@@ -15,10 +15,10 @@ class HeaderComponent extends Component {
             <div>
                 <header>
                     <nav className="navbar navbar-expand-md navbar-dark bg-dark">
-                        <NavbarBrand href="/">
+                        <Link href="/">
                             <img src={icon} width={"50"}
                                  height={"35"} />
-                        </NavbarBrand>
+                        </Link>
                         <div>
                             <h3 className = 'online-title'>Online energy utility platform</h3>
                         </div>

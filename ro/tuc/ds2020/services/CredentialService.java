@@ -20,6 +20,7 @@ import ro.tuc.ds2020.repositories.PersonRepository;
 
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 public class CredentialService {
@@ -61,5 +62,17 @@ public class CredentialService {
     public UUID getIdClientAfterRegistration(String username){
         Person person = personRepository.findPersonByCredential(credentialRepository.findCredentialByUsername(username));
         return person.getId();
+    }
+
+    public List<CredentialDTO> findCredentials(){
+        List<Credential> credentials = credentialRepository.findAll();
+        return credentials.stream().map(CredentialBuilder::toCredentialDTO)
+                .collect(Collectors.toList());
+    }
+
+    public UUID insert(CredentialDTO credentialDTO) {
+        Credential credential = CredentialBuilder.toEntity(credentialDTO);
+        credential = credentialRepository.save(credential);
+        return credential.getId_credentials();
     }
 }

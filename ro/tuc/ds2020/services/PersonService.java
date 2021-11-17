@@ -23,6 +23,7 @@ import sun.rmi.runtime.NewThreadAction;
 
 import javax.sound.sampled.FloatControl;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -267,7 +268,7 @@ public class PersonService {
         List<Float> consumptionOnEachHour = new ArrayList<>();
         consumptionOnEachHour.add(values.get(0));
         for(int i=1; i<24; i++){
-            if(values.get(i-1) == values.get(i)){
+            if(values.get(i - 1).equals(values.get(i))){
               consumptionOnEachHour.add((float)0.0);
             }else{
                 consumptionOnEachHour.add(values.get(i) - values.get(i-1));
@@ -286,7 +287,13 @@ public class PersonService {
         return finalConsumption;
     }
 
-    public List<Float> eachDayConsumption(UUID clientId, TimeDTO timeDTO) {
+    public List<Float> eachDayConsumption(UUID clientId, String timeDTO) {
+        String buffer = timeDTO.substring(1,11) + " " + timeDTO.substring(12, timeDTO.length() - 6);
+        System.out.println(buffer);
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        LocalDateTime localDateTime = LocalDateTime.parse(buffer, formatter);
+
         Person person = personRepository.findById(clientId).get();
         List<Device> devices = deviceRepository.findByIdClient(person);
         List<Float> consumptionPerHour = new ArrayList<>();
@@ -295,15 +302,15 @@ public class PersonService {
             finalConsumptionPerHour.add((float)0.0);
         }
         for(Device device: devices){
-           /* Sensor sensor = sensorRepository.findByDevice(device);
-            List<Monitoring> monitoringsFromSpecificDay = this.getAllMonitoringFromASpecificDay(timeDTO.getTemp(), sensor);
+            Sensor sensor = sensorRepository.findByDevice(device);
+            List<Monitoring> monitoringsFromSpecificDay = this.getAllMonitoringFromASpecificDay(localDateTime, sensor);
             List<Monitoring> sortedList = monitoringsFromSpecificDay.stream()
                     .sorted(Comparator.comparing(Monitoring :: getValue))
                     .collect(Collectors.toList());
             consumptionPerHour = this.consumptionPerHour(sortedList);
             consumptionPerHour = this.processingConsumptionPerHour(consumptionPerHour);
             finalConsumptionPerHour = this.finalProcessing(finalConsumptionPerHour, consumptionPerHour);
-      */  }
+      }
 
         return finalConsumptionPerHour;
     }

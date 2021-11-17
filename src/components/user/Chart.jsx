@@ -41,26 +41,20 @@ class Chart extends Component {
 
     onChange = date => {
         //console.log('state => ' + JSON.stringify(this.state.datasets.data[1]));
-        console.log('state => ' + JSON.stringify(this.state.datasets[0].data[0]));
         this.setState({date});
 
-        console.log('date => ' + JSON.stringify(date.toString()));
-        console.log('date 2 => ' + JSON.stringify(this.state.date));
+        ClientService.getChart(this.state.id, date).then(res => {
+            for(let i = 0; i<24;i++){
+                console.log('state => ' + JSON.stringify(res.data[i].value));
+            }
+            for(let i = 0; i<24;i++){
+                this.state.datasets[0].data[i] = 0;
+            }
 
-        let time = {date: this.state.date.toString()}
+            for(let i = 0; i<24;i++){
 
-        const currentDayOfMonth = date.getDate();
-        const currentMonth = date.getMonth(); // Be careful! January is 0, not 1
-        const currentYear = date.getFullYear();
-
-        const dateString = currentDayOfMonth + "-" + (currentMonth + 1) + "-" + currentYear;
-
-        let time2 = {date: dateString}
-
-        console.log('date 3 => ' + JSON.stringify(time));
-
-        ClientService.getChart(this.state.id, time).then(res => {
-           // console.log('Rezult => ' + JSON.stringify(res));
+                this.state.datasets[0].data[i] = res.data[i].value;
+            }
         });
     }
 
