@@ -27,11 +27,17 @@ public class Monitoring implements Serializable{
     @Column(name = "value")
     private float value;
 
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @ManyToOne(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
     @JoinColumn(name = "id_sensor")
     private Sensor sensor;
 
     public Monitoring(){}
+
+    public Monitoring(UUID id_monitoring, LocalDateTime temp, float value) {
+        this.id_monitoring = id_monitoring;
+        this.temp = temp;
+        this.value = value;
+    }
 
     public Monitoring(LocalDateTime temp, float value) {
         this.temp = temp;

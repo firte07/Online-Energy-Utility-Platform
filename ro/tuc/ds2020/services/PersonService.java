@@ -112,8 +112,8 @@ public class PersonService {
         List<Monitoring> copy = new ArrayList<>(monitorings);
         System.out.println(monitorings);
         for(Monitoring monitoring: monitorings){
-            //TODO: change to local date time now after implemenetd
-            if(monitoring.getTemp().getMonthValue() == 10 && monitoring.getTemp().getDayOfMonth() == 29){
+            if(monitoring.getTemp().getMonthValue() == LocalDateTime.now().getMonthValue()
+                    && monitoring.getTemp().getDayOfMonth() == LocalDateTime.now().getDayOfMonth()){
                 copy.remove(monitoring);
             }
         }
@@ -125,8 +125,8 @@ public class PersonService {
     private Monitoring getMonitoringFromToday(Sensor sensor){
         List<Monitoring> monitorings = monitoringRepository.findBySensor(sensor);
         for(Monitoring monitoring: monitorings){
-            //TODO: change to local date time now after implemenetd
-            if(monitoring.getTemp().getMonthValue() == 10 && monitoring.getTemp().getDayOfMonth() == 29){
+            if(monitoring.getTemp().getMonthValue() == LocalDateTime.now().getMonthValue() &&
+                    monitoring.getTemp().getDayOfMonth() == LocalDateTime.now().getDayOfMonth()){
                return monitoring;
             }
         }
@@ -297,22 +297,22 @@ public class PersonService {
         Person person = personRepository.findById(clientId).get();
         List<Device> devices = deviceRepository.findByIdClient(person);
         List<Float> consumptionPerHour = new ArrayList<>();
-        List<Float> finalConsumptionPerHour = new ArrayList<>();
-        for(int i =0; i<24; i++){
+        //List<Float> finalConsumptionPerHour = new ArrayList<>();
+        /*for(int i =0; i<24; i++){
             finalConsumptionPerHour.add((float)0.0);
         }
-        for(Device device: devices){
-            Sensor sensor = sensorRepository.findByDevice(device);
+        *///for(Device device: devices){
+            Sensor sensor = sensorRepository.findByDevice(devices.get(0));
             List<Monitoring> monitoringsFromSpecificDay = this.getAllMonitoringFromASpecificDay(localDateTime, sensor);
             List<Monitoring> sortedList = monitoringsFromSpecificDay.stream()
-                    .sorted(Comparator.comparing(Monitoring :: getValue))
+                    .sorted(Comparator.comparing(Monitoring :: getTemp))
                     .collect(Collectors.toList());
             consumptionPerHour = this.consumptionPerHour(sortedList);
-            consumptionPerHour = this.processingConsumptionPerHour(consumptionPerHour);
-            finalConsumptionPerHour = this.finalProcessing(finalConsumptionPerHour, consumptionPerHour);
-      }
+        //    consumptionPerHour = this.processingConsumptionPerHour(consumptionPerHour);
+            //finalConsumptionPerHour = this.finalProcessing(finalConsumptionPerHour, consumptionPerHour);
+      //}
 
-        return finalConsumptionPerHour;
+        return consumptionPerHour;
     }
 
 

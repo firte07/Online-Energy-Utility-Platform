@@ -18,6 +18,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.UUID;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
 public class Sender {
@@ -38,12 +39,15 @@ public class Sender {
             channel.queueDeclare("Queue", false, false, false, null);
 
             int i=0;
+            long addTime = 0;
             while(i<values.size()-1){
                 Monitoring monitoring = new Monitoring();
                 monitoring.setIdSensor(id);
                 monitoring.setValue(values.get(i));
 
-                LocalDateTime currentDateTime = LocalDateTime.now();
+                LocalDateTime currentDateTime = LocalDateTime.now().plusHours(addTime);
+                addTime +=1;
+                System.out.println(currentDateTime);
                 DateTimeFormatter formatter = DateTimeFormatter.ISO_DATE_TIME;
                 String formattedDateTime = currentDateTime.format(formatter);
 
@@ -58,11 +62,11 @@ public class Sender {
                 String json = objectMapper.writeValueAsString(monitoring);
 
                 channel.basicPublish("", "Queue", false, null, json.getBytes());
-
+                System.out.println("Message has been sent!");
+                TimeUnit.SECONDS.sleep(2);
             }
-
-
-            System.out.println("Message has been sent!");
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
 
     }

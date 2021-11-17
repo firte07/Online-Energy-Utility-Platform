@@ -25,6 +25,7 @@ public class Consumer {
         }, consumerTag -> {
 
         });
-
+        channel.close();
+        connection.close();
     }
 }

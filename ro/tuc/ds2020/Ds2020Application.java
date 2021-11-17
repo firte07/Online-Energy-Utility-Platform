@@ -7,15 +7,15 @@ import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.validation.annotation.Validated;
+import ro.tuc.ds2020.consumer.Consumer;
 import ro.tuc.ds2020.controllers.RegistrationController;
 import ro.tuc.ds2020.dtos.*;
+import ro.tuc.ds2020.entities.MonitoringBuffer;
 import ro.tuc.ds2020.repositories.*;
-import ro.tuc.ds2020.services.CredentialService;
-import ro.tuc.ds2020.services.DeviceService;
-import ro.tuc.ds2020.services.PersonService;
-import ro.tuc.ds2020.services.SensorService;
+import ro.tuc.ds2020.services.*;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.TimeZone;
 import java.util.UUID;
 
@@ -37,6 +37,9 @@ public class Ds2020Application extends SpringBootServletInitializer {
                                          CredentialRepository credentialRepository, SensorRepository sensorRepository,
                                          MonitoringRepository monitoringRepository) {
         return args -> {
+           Consumer consumer = new Consumer(new MonitoringService(monitoringRepository, sensorRepository));
+           consumer.getMonitorings();
+
         /*    PersonService personService = new PersonService(personRepository, deviceRepository, sensorRepository, monitoringRepository);
             LocalDateTime localDateTime = LocalDateTime.of(2021, 10, 28, 10, 0);
             TimeDTO timeDTO = new TimeDTO();

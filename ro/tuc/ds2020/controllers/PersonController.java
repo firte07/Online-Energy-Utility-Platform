@@ -91,7 +91,6 @@ public class PersonController {
         System.out.println("Id e: " + clientId);
         System.out.println("Data e: " + timeDTO);
 
-
         List<Float> eachDayConsumption = personService.eachDayConsumption(clientId, timeDTO);
         List<ValuesDTO> valuesDTOS = new ArrayList<>();
         for(Float f: eachDayConsumption){
@@ -99,7 +98,7 @@ public class PersonController {
             valuesDTO.setValue(f);
             valuesDTOS.add(valuesDTO);
         }
-        System.out.println(valuesDTOS.get(12).getValue());
+
         return new ResponseEntity<>(valuesDTOS, HttpStatus.OK);
     }
 }
