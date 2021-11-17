@@ -5,16 +5,20 @@ import org.springframework.hateoas.Link;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import ro.tuc.ds2020.consumer.Consumer;
 import ro.tuc.ds2020.dtos.*;
+import ro.tuc.ds2020.services.MonitoringService;
 import ro.tuc.ds2020.services.PersonService;
 
 import javax.validation.Valid;
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
+import java.util.concurrent.TimeoutException;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
@@ -25,10 +29,12 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 public class PersonController {
 
     private final PersonService personService;
+    private final MonitoringService monitoringService;
 
     @Autowired
-    public PersonController(PersonService personService) {
+    public PersonController(PersonService personService, MonitoringService monitoringService) {
         this.personService = personService;
+        this.monitoringService = monitoringService;
     }
 
     @GetMapping()
@@ -87,9 +93,12 @@ public class PersonController {
     }
 
     @PostMapping(value = "/chart/{id}")
-    public ResponseEntity<List<ValuesDTO>> getChart(@PathVariable("id") UUID clientId, @Valid @RequestBody String timeDTO){
+    public ResponseEntity<List<ValuesDTO>> getChart(@PathVariable("id") UUID clientId, @Valid @RequestBody String timeDTO) throws InterruptedException, TimeoutException, IOException {
         System.out.println("Id e: " + clientId);
         System.out.println("Data e: " + timeDTO);
+
+        Consumer consumer = new Consumer(monitoringService);
+        consumer.executeMonitorings();
 
         List<Float> eachDayConsumption = personService.eachDayConsumption(clientId, timeDTO);
         List<ValuesDTO> valuesDTOS = new ArrayList<>();

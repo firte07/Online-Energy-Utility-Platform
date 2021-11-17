@@ -39,7 +39,6 @@ public class MonitoringService {
         if(peak<actualValue) {
             System.out.println("Peak = " +peak);
             System.out.println("Actual value = " +actualValue);
-            System.out.println("BAAAAAAA ");
         }
 
         Monitoring monitoring = new Monitoring();
@@ -53,13 +52,4 @@ public class MonitoringService {
 
         monitoringRepository.save(monitoring);
     }
-
-    /*public UUID insert(Monitoring deviceDTO){
-        Device device = DeviceBuilder.toEntity(deviceDTO);
-        device = deviceRepository.save(device);
-        LOGGER.debug("Device with id {} was inserted in db", device.getId_device());
-        return device.getId_device();
-    }*/
-
-
 }

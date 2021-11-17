@@ -31,7 +31,7 @@ public class Consumer {
         this.monitoringService = monitoringService;
     }
 
-    public void getMonitorings() throws IOException, TimeoutException, InterruptedException {
+    public void executeMonitorings() throws IOException, TimeoutException, InterruptedException {
         ConnectionFactory factory = new ConnectionFactory();
         ObjectMapper objectMapper = new ObjectMapper();
         Connection connection = factory.newConnection("amqps://kxugqbea:dJi0LV-JfPaOPi4G4XAAvSq2tphVThFF@rat.rmq2.cloudamqp.com/kxugqbea");
