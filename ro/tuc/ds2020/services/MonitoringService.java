@@ -3,14 +3,12 @@ package ro.tuc.ds2020.services;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import ro.tuc.ds2020.dtos.DeviceDTO;
 import ro.tuc.ds2020.dtos.builders.DeviceBuilder;
 import ro.tuc.ds2020.dtos.builders.MonitoringBuilder;
-import ro.tuc.ds2020.entities.Device;
-import ro.tuc.ds2020.entities.Monitoring;
-import ro.tuc.ds2020.entities.MonitoringBuffer;
-import ro.tuc.ds2020.entities.Sensor;
+import ro.tuc.ds2020.entities.*;
 import ro.tuc.ds2020.repositories.MonitoringRepository;
 import ro.tuc.ds2020.repositories.SensorRepository;
 
@@ -24,11 +22,13 @@ public class MonitoringService {
     private static final Logger LOGGER = LoggerFactory.getLogger(DeviceService.class);
     private final MonitoringRepository monitoringRepository;
     private final SensorRepository sensorRepository;
+    private final ApplicationEventPublisher eventPublisher;
 
     @Autowired
-    public MonitoringService(MonitoringRepository monitoringRepository, SensorRepository sensorRepository) {
+    public MonitoringService(MonitoringRepository monitoringRepository, SensorRepository sensorRepository, ApplicationEventPublisher eventPublisher) {
         this.monitoringRepository = monitoringRepository;
         this.sensorRepository = sensorRepository;
+        this.eventPublisher = eventPublisher;
     }
 
     public void execute(MonitoringBuffer monitoringBuffer, float lastValue){
@@ -39,6 +39,7 @@ public class MonitoringService {
         if(peak<actualValue) {
             System.out.println("Peak = " +peak);
             System.out.println("Actual value = " +actualValue);
+            eventPublisher.publishEvent(new Notification("Maximum value exceeded!!!"));
         }
 
         Monitoring monitoring = new Monitoring();

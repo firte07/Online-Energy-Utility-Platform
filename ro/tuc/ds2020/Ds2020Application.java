@@ -5,6 +5,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.annotation.Bean;
 import org.springframework.validation.annotation.Validated;
 import ro.tuc.ds2020.consumer.Consumer;
@@ -35,10 +36,10 @@ public class Ds2020Application extends SpringBootServletInitializer {
     @Bean
     public CommandLineRunner mappingDemo(DeviceRepository deviceRepository, PersonRepository personRepository,
                                          CredentialRepository credentialRepository, SensorRepository sensorRepository,
-                                         MonitoringRepository monitoringRepository) {
+                                         MonitoringRepository monitoringRepository, ApplicationEventPublisher eventPublisher) {
         return args -> {
-           //Consumer consumer = new Consumer(new MonitoringService(monitoringRepository, sensorRepository));
-          // consumer.getMonitorings();
+           Consumer consumer = new Consumer(new MonitoringService(monitoringRepository, sensorRepository, eventPublisher));
+           //consumer.executeMonitorings();
 
         /*    PersonService personService = new PersonService(personRepository, deviceRepository, sensorRepository, monitoringRepository);
             LocalDateTime localDateTime = LocalDateTime.of(2021, 10, 28, 10, 0);
