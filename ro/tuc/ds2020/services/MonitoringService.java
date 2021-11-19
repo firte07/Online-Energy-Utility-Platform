@@ -37,8 +37,8 @@ public class MonitoringService {
         float actualValue = monitoringBuffer.getValue() - lastValue;
 
         if(peak<actualValue) {
-            System.out.println("Peak = " +peak);
-            System.out.println("Actual value = " +actualValue);
+            System.out.println("Max value sensor = " +peak);
+            System.out.println("Peak = " +actualValue);
             eventPublisher.publishEvent(new Notification("Maximum value exceeded!!!"));
         }
 

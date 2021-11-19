@@ -38,7 +38,7 @@ public class Ds2020Application extends SpringBootServletInitializer {
                                          CredentialRepository credentialRepository, SensorRepository sensorRepository,
                                          MonitoringRepository monitoringRepository, ApplicationEventPublisher eventPublisher) {
         return args -> {
-           Consumer consumer = new Consumer(new MonitoringService(monitoringRepository, sensorRepository, eventPublisher));
+           //Consumer consumer = new Consumer(new MonitoringService(monitoringRepository, sensorRepository, eventPublisher), );
            //consumer.executeMonitorings();
 
         /*    PersonService personService = new PersonService(personRepository, deviceRepository, sensorRepository, monitoringRepository);

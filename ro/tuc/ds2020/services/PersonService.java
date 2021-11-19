@@ -195,7 +195,6 @@ public class PersonService {
             viewDTO.setMaxValueSensor(sensor.getMaxValue());
 
             List<Monitoring> monitorings = this.getAllMonitoringBySensorExceptToday(sensor);
-            //TODO: actualizat average si max
             viewDTO.setAverageConsumption(this.findAverage(monitorings));
             device.setAverageConsumption(viewDTO.getAverageConsumption());
 
@@ -257,12 +256,31 @@ public class PersonService {
                 consumptionPerHour.add(monitorings.get(index).getValue());
                 lastConsumption = monitorings.get(index).getValue();
                 index++;
+            }else if(index == monitorings.size()){
+                        consumptionPerHour.add((float)0.0);
+                    }else {
+                        consumptionPerHour.add(lastConsumption);
+                    }
+        }
+        return consumptionPerHour;
+    }
+
+    /*private List<Float> consumptionPerHour(List<Monitoring> monitorings){
+        List<Float> consumptionPerHour = new ArrayList<>();
+        int index = 0;
+        float lastConsumption = 0;
+        for(int counter = 0; counter < 24; counter ++){
+            if(index < monitorings.size() &&
+                    monitorings.get(index).getTemp().getHour() == counter){
+                consumptionPerHour.add(monitorings.get(index).getValue());
+                lastConsumption = monitorings.get(index).getValue();
+                index++;
             }else{
                 consumptionPerHour.add(lastConsumption);
             }
         }
         return consumptionPerHour;
-    }
+    }*/
 
     private List<Float> processingConsumptionPerHour(List<Float> values){
         List<Float> consumptionOnEachHour = new ArrayList<>();
@@ -313,6 +331,15 @@ public class PersonService {
       //}
 
         return consumptionPerHour;
+    }
+
+    public List<Device> getAllDevices(UUID idClient){
+        Person person = personRepository.findById(idClient).get();
+        return deviceRepository.findByIdClient(person);
+    }
+
+    public Sensor getSensorByDevice(Device device){
+        return sensorRepository.findByDevice(device);
     }
 
 

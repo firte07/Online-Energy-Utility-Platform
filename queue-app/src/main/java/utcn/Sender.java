@@ -29,6 +29,7 @@ public class Sender {
         Service service = new Service();
 
         UUID id = fileReader.readSensorId();
+        System.out.println("Sensorid: " + id);
         List<String> valuesString = valueReader.readValues();
         List<Float> values = service.values(valuesString);
 
@@ -36,13 +37,14 @@ public class Sender {
 
         try(Connection connection = factory.newConnection("amqps://kxugqbea:dJi0LV-JfPaOPi4G4XAAvSq2tphVThFF@rat.rmq2.cloudamqp.com/kxugqbea")) {
             Channel channel = connection.createChannel();
-            channel.queueDeclare("Queue", false, false, false, null);
+            channel.queueDeclare(id.toString(), false, false, false, null);
 
             int i=0;
             long addTime = 0;
             while(i<values.size()-1){
                 Monitoring monitoring = new Monitoring();
                 monitoring.setIdSensor(id);
+                System.out.println("Value: " + values.get(i));
                 monitoring.setValue(values.get(i));
 
                 LocalDateTime currentDateTime = LocalDateTime.now().plusHours(addTime);
@@ -61,7 +63,7 @@ public class Sender {
                         .registerModule(new JavaTimeModule());
                 String json = objectMapper.writeValueAsString(monitoring);
 
-                channel.basicPublish("", "Queue", false, null, json.getBytes());
+                channel.basicPublish("", id.toString(), false, null, json.getBytes());
                 System.out.println("Message has been sent!");
                 TimeUnit.SECONDS.sleep(2);
             }

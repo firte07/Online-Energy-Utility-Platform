@@ -99,7 +99,7 @@ public class PersonController {
         System.out.println("Id e: " + clientId);
         System.out.println("Data e: " + timeDTO);
 
-        Consumer consumer = new Consumer(monitoringService);
+        Consumer consumer = new Consumer(monitoringService, personService, clientId);
         consumer.executeMonitorings();
 
         List<Float> eachDayConsumption = personService.eachDayConsumption(clientId, timeDTO);

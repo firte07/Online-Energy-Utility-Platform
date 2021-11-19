@@ -15,6 +15,7 @@ import ro.tuc.ds2020.entities.Sensor;
 import ro.tuc.ds2020.repositories.MonitoringRepository;
 import ro.tuc.ds2020.repositories.SensorRepository;
 import ro.tuc.ds2020.services.MonitoringService;
+import ro.tuc.ds2020.services.PersonService;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -26,19 +27,25 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 public class Consumer {
     private MonitoringService monitoringService;
+    private PersonService personService;
+    private final UUID id;
 
-    public Consumer(MonitoringService monitoringService) {
+    public Consumer(MonitoringService monitoringService, PersonService personService, UUID id) {
         this.monitoringService = monitoringService;
+        this.personService = personService;
+        this.id = id;
     }
 
     public void executeMonitorings() throws IOException, TimeoutException, InterruptedException {
+        List<Device> devices = personService.getAllDevices(id);
+        Sensor sensor = personService.getSensorByDevice(devices.get(0));
         ConnectionFactory factory = new ConnectionFactory();
         ObjectMapper objectMapper = new ObjectMapper();
         Connection connection = factory.newConnection("amqps://kxugqbea:dJi0LV-JfPaOPi4G4XAAvSq2tphVThFF@rat.rmq2.cloudamqp.com/kxugqbea");
         Channel channel = connection.createChannel();
         final int[] i = {0};
         final float[] lastValue = {0};
-        channel.basicConsume("Queue", true, (consumerTag, message) -> {
+        channel.basicConsume(sensor.getId_sensor().toString(), true, (consumerTag, message) -> {
 
             MonitoringBuffer monitoring = objectMapper.readValue(message.getBody(), MonitoringBuffer.class);
 
