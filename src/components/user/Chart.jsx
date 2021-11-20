@@ -3,6 +3,9 @@ import { withRouter } from 'react-router-dom';
 import Calendar from "react-calendar";
 import {Bar} from 'react-chartjs-2';
 import ClientService from "../../services/ClientService";
+import SockJsClient from 'react-stomp';
+import { Notifications } from 'react-push-notification';
+import addNotification from 'react-push-notification';
 
 class Chart extends Component {
     constructor(props) {
@@ -31,7 +34,6 @@ class Chart extends Component {
                 }
             ]
         }
-
         this.onChange = this.onChange.bind(this);
     }
 
@@ -94,6 +96,19 @@ class Chart extends Component {
                         }*/
                     }}
                 />
+                <SockJsClient url='http://localhost:8080/websocket' topics={['/topic/notifications']}
+                              onMessage={(msg) => {
+                                  console.log(msg);
+                                  addNotification({
+                                      title: 'Warning',
+                                      message: 'Maximum value exceeded!!',
+                                      theme: 'red',
+                                      native: true // when using native, your OS will handle theming.
+                                  });
+                              }}
+                              ref={(client) => {
+                                  this.clientRef = client
+                              }}/>
             </div>
         );
     }
