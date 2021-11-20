@@ -35,7 +35,7 @@ public class Sender {
 
         ConnectionFactory factory = new ConnectionFactory();
 
-        try(Connection connection = factory.newConnection("amqps://kxugqbea:dJi0LV-JfPaOPi4G4XAAvSq2tphVThFF@rat.rmq2.cloudamqp.com/kxugqbea")) {
+        try(Connection connection = factory.newConnection("localhost:15672/")) {
             Channel channel = connection.createChannel();
             channel.queueDeclare(id.toString(), false, false, false, null);
 
