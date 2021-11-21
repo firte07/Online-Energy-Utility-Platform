@@ -1,5 +1,6 @@
 package ro.tuc.ds2020.controllers;
 
+import com.sun.org.apache.xpath.internal.operations.Bool;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.Link;
 import org.springframework.http.HttpStatus;
@@ -73,6 +74,12 @@ public class PersonController {
         Map<String, Boolean> response = personService.deletePerson(personId);
         response.put("deleted", Boolean.TRUE);
         return ResponseEntity.ok(response);
+    }
+
+    @RequestMapping(method = RequestMethod.DELETE)
+    public ResponseEntity<Boolean> deleteMonitorings(){
+        personService.deleteMonitorings();
+        return ResponseEntity.ok(Boolean.TRUE);
     }
 
     @PostMapping(value = "/connect-device/{id}")

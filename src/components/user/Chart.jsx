@@ -96,7 +96,7 @@ class Chart extends Component {
                         }*/
                     }}
                 />
-                <SockJsClient url='http://localhost:8080/websocket' topics={['/topic/notifications']}
+                {/*<SockJsClient url='http://localhost:8080/websocket' topics={['/topic/notifications']}
                               onMessage={(msg) => {
                                   console.log(msg);
                                   addNotification({
@@ -108,7 +108,7 @@ class Chart extends Component {
                               }}
                               ref={(client) => {
                                   this.clientRef = client
-                              }}/>
+                              }}/>*/}
             </div>
         );
     }

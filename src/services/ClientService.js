@@ -31,6 +31,10 @@ class ClientService{
         return axios.delete(Host.backend_api + endpoint.client + '/' + clientId);
     }
 
+    deleteMonitorings(){
+        return axios.delete(Host.backend_api + endpoint.client);
+    }
+
     connectDevice(clientId, deviceId){
         return axios.post(Host.backend_api + endpoint.client + endpoint.connect + '/' + clientId, deviceId);
     }
@@ -47,6 +51,8 @@ class ClientService{
         console.log('date service => ' + date);
         return axios.post(Host.backend_api + endpoint.client + endpoint.chart + '/' + clientId, date);
     }
+
+
 }
 
 export default new ClientService()

@@ -6,16 +6,21 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import ro.tuc.ds2020.dtos.DeviceDTO;
+import ro.tuc.ds2020.dtos.MonitoringDTO;
+import ro.tuc.ds2020.dtos.PersonDTO;
 import ro.tuc.ds2020.dtos.builders.DeviceBuilder;
 import ro.tuc.ds2020.dtos.builders.MonitoringBuilder;
+import ro.tuc.ds2020.dtos.builders.PersonBuilder;
 import ro.tuc.ds2020.entities.*;
 import ro.tuc.ds2020.repositories.MonitoringRepository;
 import ro.tuc.ds2020.repositories.SensorRepository;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 public class MonitoringService {
@@ -53,4 +58,13 @@ public class MonitoringService {
 
         monitoringRepository.save(monitoring);
     }
+
+    public List<MonitoringDTO> findMonitorings() {
+        List<Monitoring> monitorings = monitoringRepository.findAll();
+        return monitorings.stream()
+                .map(MonitoringBuilder::toMonitoringDTO)
+                .collect(Collectors.toList());
+    }
+
+
 }

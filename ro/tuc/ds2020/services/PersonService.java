@@ -343,4 +343,7 @@ public class PersonService {
     }
 
 
+    public void deleteMonitorings() {
+        monitoringRepository.deleteAll();
+    }
 }

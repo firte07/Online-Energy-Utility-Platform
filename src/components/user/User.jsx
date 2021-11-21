@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import { withRouter } from 'react-router-dom';
+import ClientService from "../../services/ClientService";
 
 class User extends Component {
     constructor(props) {
@@ -13,8 +14,8 @@ class User extends Component {
         this.viewTodayConsumption = this.viewTodayConsumption.bind(this);
         this.viewChart = this.viewChart.bind(this);
         this.goBack = this.goBack.bind(this);
+        this.deleteMonitorings = this.deleteMonitorings.bind(this);
     }
-
 
     viewHistoryConsumption(){
         this.props.history.push('/user/view-history-consumption/' + this.state.id);
@@ -26,6 +27,12 @@ class User extends Component {
 
     viewChart(){
         this.props.history.push('/user/chart/' + this.state.id);
+    }
+
+    deleteMonitorings(){
+        ClientService.deleteMonitorings().then(res => {
+            console.log("Delete successfully");
+        });
     }
 
     goBack(){
@@ -41,6 +48,7 @@ class User extends Component {
                         <button className="btn btn-info" onClick={this.viewHistoryConsumption}>View history consumption</button>
                         <button className="btn btn-info" onClick={this.viewTodayConsumption} style={{marginLeft: "10px"}}>View today consumption</button>
                         <button className="btn btn-info" onClick={this.viewChart} style={{marginLeft: "10px"}}>View chart</button>
+                        <button className="btn btn-danger" onClick={this.deleteMonitorings} style={{marginLeft: "10px"}}>Delete all monitorings</button>
                         <br/>
                         <br/>
                         <button className="btn btn-danger" onClick={this.goBack}>Log out</button>
