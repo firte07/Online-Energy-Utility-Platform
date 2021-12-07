@@ -1,6 +1,5 @@
 package ro.tuc.ds2020.repositories;
 
-import jdk.nashorn.internal.objects.annotations.Getter;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;

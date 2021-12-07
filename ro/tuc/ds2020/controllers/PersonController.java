@@ -1,6 +1,5 @@
 package ro.tuc.ds2020.controllers;
 
-import com.sun.org.apache.xpath.internal.operations.Bool;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.Link;
 import org.springframework.http.HttpStatus;
@@ -14,6 +13,9 @@ import ro.tuc.ds2020.services.PersonService;
 
 import javax.validation.Valid;
 import java.io.IOException;
+import java.net.URISyntaxException;
+import java.security.KeyManagementException;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -33,11 +35,13 @@ public class PersonController {
 
     private final PersonService personService;
     private final MonitoringService monitoringService;
+    private final Consumer consumer;
 
     @Autowired
-    public PersonController(PersonService personService, MonitoringService monitoringService) {
+    public PersonController(PersonService personService, MonitoringService monitoringService, Consumer consumer) {
         this.personService = personService;
         this.monitoringService = monitoringService;
+        this.consumer = consumer;
     }
 
     @GetMapping()
@@ -102,12 +106,11 @@ public class PersonController {
     }
 
     @PostMapping(value = "/chart/{id}")
-    public ResponseEntity<List<ValuesDTO>> getChart(@PathVariable("id") UUID clientId, @Valid @RequestBody String timeDTO) throws InterruptedException, TimeoutException, IOException {
+    public ResponseEntity<List<ValuesDTO>> getChart(@PathVariable("id") UUID clientId, @Valid @RequestBody String timeDTO) throws InterruptedException, TimeoutException, IOException, NoSuchAlgorithmException, KeyManagementException, URISyntaxException {
         System.out.println("Id e: " + clientId);
         System.out.println("Data e: " + timeDTO);
 
-        Consumer consumer = new Consumer(monitoringService, personService, clientId);
-        consumer.executeMonitorings();
+        consumer.executeMonitorings(clientId);
 
         List<Float> eachDayConsumption = personService.eachDayConsumption(clientId, timeDTO);
         List<ValuesDTO> valuesDTOS = new ArrayList<>();

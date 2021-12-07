@@ -19,9 +19,7 @@ import ro.tuc.ds2020.repositories.DeviceRepository;
 import ro.tuc.ds2020.repositories.MonitoringRepository;
 import ro.tuc.ds2020.repositories.PersonRepository;
 import ro.tuc.ds2020.repositories.SensorRepository;
-import sun.rmi.runtime.NewThreadAction;
 
-import javax.sound.sampled.FloatControl;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;

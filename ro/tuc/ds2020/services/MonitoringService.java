@@ -46,10 +46,12 @@ public class MonitoringService {
             System.out.println("Peak = " +actualValue);
             eventPublisher.publishEvent(new Notification("Maximum value exceeded!!!"));
         }
-
+        //2022-05-14T22:00
         Monitoring monitoring = new Monitoring();
         String buffer = monitoringBuffer.getTemp().substring(0,10) + " " + monitoringBuffer.getTemp().substring(11,  monitoringBuffer.getTemp().length() - 4);
+        //String buffer = monitoringBuffer.getTemp().substring(0,10) + " " + monitoringBuffer.getTemp().substring(11);
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+
         LocalDateTime dateTime = LocalDateTime.parse(buffer, formatter);
 
         monitoring.setTemp(dateTime);

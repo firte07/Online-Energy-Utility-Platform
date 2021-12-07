@@ -38,9 +38,12 @@ public class Ds2020Application extends SpringBootServletInitializer {
                                          CredentialRepository credentialRepository, SensorRepository sensorRepository,
                                          MonitoringRepository monitoringRepository, ApplicationEventPublisher eventPublisher) {
         return args -> {
-           //Consumer consumer = new Consumer(new MonitoringService(monitoringRepository, sensorRepository, eventPublisher), );
-           //consumer.executeMonitorings();
-
+            /*RPCService rpcService =new RPCService(monitoringRepository);
+            rpcService.getMonitoringLastSevenDays();
+           */ /*Consumer consumer = new Consumer(new MonitoringService(monitoringRepository, sensorRepository, eventPublisher),
+                  new PersonService(personRepository, deviceRepository, sensorRepository, monitoringRepository));
+            consumer.executeMonitorings(UUID.fromString("f9632d91-121a-45c1-b8e5-575e820b451b"));
+*/
         /*    PersonService personService = new PersonService(personRepository, deviceRepository, sensorRepository, monitoringRepository);
             LocalDateTime localDateTime = LocalDateTime.of(2021, 10, 28, 10, 0);
             TimeDTO timeDTO = new TimeDTO();
