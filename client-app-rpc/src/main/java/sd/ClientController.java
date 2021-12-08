@@ -11,6 +11,7 @@ import org.jfree.ui.RefineryUtilities;
 import sd.charts.BaselineChart;
 import sd.charts.OptimalChart;
 import sd.charts.SevenDaysChart;
+import sd.utils.ControllerUtils;
 
 import java.util.List;
 import java.util.ArrayList;
@@ -175,6 +176,7 @@ public class ClientController {
             respIn = mySession.send(reqOut);
         } catch (JSONRPC2SessionException e) {
             System.err.println(e.getMessage());
+            ControllerUtils.createSwingErrorMessage("Interval must be specified!");
         }
 
         if (respIn!=null && respIn.indicatesSuccess()) {
@@ -201,7 +203,6 @@ public class ClientController {
         }
         else {
             System.out.println("The request failed :");
-
             JSONRPC2Error err = respIn.getError();
 
             System.out.println("\terror.code    : " + err.getCode());
