@@ -2,7 +2,7 @@ import axios from 'axios';
 import {Host} from '../commons/Host';
 
 const endpoint = {
-    registration: '/registration',
+    registration: 'registration',
     find: '/find-id'
 };
 
@@ -13,14 +13,24 @@ class RegistrationService{
 
     }
 
+    //with security
     login(credentials){
+        var qs = require('qs');
+        var data = qs.stringify({
+            'username': credentials.username,
+            'password': credentials.password
+        });
+
         console.log('credential =>' + JSON.stringify(credentials));
-        return axios.put(Host.backend_api, credentials);
+        return axios.post(Host.backend_api + 'login', data);
     }
 
-    getIdClient(username){
-        console.log('username 1 =>' + JSON.stringify(username));
-        return axios.post(Host.backend_api + endpoint.registration + endpoint.find, username);
+    getIdClient(username, token){
+        console.log('Token =>' + token);
+        console.log('Username ' + username);
+        const AuthStr = 'Bearer '.concat(token);
+        return axios.post(Host.backend_api + endpoint.registration + endpoint.find, username,
+            { headers: { Authorization: AuthStr } });
     }
 
 }

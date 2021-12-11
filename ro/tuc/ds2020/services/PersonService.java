@@ -134,18 +134,11 @@ public class PersonService {
     private List<Float> getValues(List<Monitoring> monitorings){
         List<Float> values = new ArrayList<>();
         List<Monitoring> sortedList = monitorings.stream()
-                .sorted(Comparator.comparing(Monitoring :: getValue))
+                .sorted(Comparator.comparing(Monitoring :: getTemp))
                 .collect(Collectors.toList());
-        List<Monitoring> copy = new ArrayList<>(sortedList);
-        float lastValue = monitorings.get(0).getValue();
-        float currentValue = 0;
-        values.add(monitorings.get(0).getValue());
-        copy.remove(0);
 
-        for(Monitoring monitoring: copy){
-            currentValue = monitoring.getValue();
-            values.add(currentValue - lastValue);
-            lastValue = currentValue;
+        for(Monitoring monitoring: sortedList){
+             values.add(monitoring.getValue());
         }
         return values;
     }
@@ -171,11 +164,15 @@ public class PersonService {
 
     private float totalConsumption(List<Monitoring> monitorings){
         List<Monitoring> sortedList = monitorings.stream()
-                .sorted(Comparator.comparing(Monitoring :: getValue))
+                .sorted(Comparator.comparing(Monitoring :: getTemp))
                 .collect(Collectors.toList());
         System.out.println(sortedList);
+        float totalValue = 0;
+        for(Monitoring monitoring: monitorings){
+            totalValue+=monitoring.getValue();
+        }
 
-        return sortedList.get(sortedList.size() - 1).getValue();
+        return totalValue;
     }
 
     public List<ViewDTO> getViewHistory(UUID clientId) {

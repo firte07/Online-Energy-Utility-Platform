@@ -19,27 +19,29 @@ import java.util.ArrayList;
 //******  4606a841-ff66-46a2-9eab-77628b35fd48 *******///
 
 public class ClientController {
+    private final UUID clientId = UUID.fromString("b3c973f7-802b-45f8-be49-1109affa9f30");
+    private final String URL = "https://firte-catalin-backend-1.herokuapp.com/rpc";
 
     public void viewSevenDays() {
         URL serverUrl = null;
 
         try {
-            serverUrl = new URL("http://localhost:8080/rpc");
+            serverUrl = new URL(URL);
         } catch (MalformedURLException e) {
             e.printStackTrace();
         }
 
         JSONRPC2Session mySession = new JSONRPC2Session(serverUrl);
-        mySession.getOptions().setAllowedResponseContentTypes(new String[]{"text/html;charset=UTF-8"});
+        mySession.getOptions().setAllowedResponseContentTypes(new String[]{"application/json", "text/html;charset=UTF-8"});
+        mySession.getOptions().setRequestContentType("application/json");
 
         String method = "getMonitoringLastSevenDays";
-        //Map<String, Object> params = new HashMap<String, Object>();
-       // params.put("recipient", "Penny Adams");
-       // params.put("amount", 179.05);
+        Map<String, Object> params = new HashMap<String, Object>();
+        params.put("idClient", clientId.toString());
         String id = "req-001";
-
+        System.out.println("Id ii "+ params.get("idClient"));
         // Create a new JSON-RPC 2.0 request
-        JSONRPC2Request reqOut = new JSONRPC2Request(method, id);
+        JSONRPC2Request reqOut = new JSONRPC2Request(method, params, id);
 
         // Parse response string
         JSONRPC2Response respIn = null;
@@ -89,22 +91,23 @@ public class ClientController {
         URL serverUrl = null;
 
         try {
-            serverUrl = new URL("http://localhost:8080/rpc");
+            serverUrl = new URL(URL);
         } catch (MalformedURLException e) {
             e.printStackTrace();
         }
 
         JSONRPC2Session mySession = new JSONRPC2Session(serverUrl);
-        mySession.getOptions().setAllowedResponseContentTypes(new String[]{"text/html;charset=UTF-8"});
+        mySession.getOptions().setAllowedResponseContentTypes(new String[]{"application/json", "text/html;charset=UTF-8"});
+        mySession.getOptions().setRequestContentType("application/json");
 
         String method = "baseline";
-        //Map<String, Object> params = new HashMap<String, Object>();
-        // params.put("recipient", "Penny Adams");
-        // params.put("amount", 179.05);
+        Map<String, Object> params = new HashMap<String, Object>();
+        params.put("idClient", clientId.toString());
+
         String id = "req-002";
 
         // Create a new JSON-RPC 2.0 request
-        JSONRPC2Request reqOut = new JSONRPC2Request(method, id);
+        JSONRPC2Request reqOut = new JSONRPC2Request(method, params, id);
 
         // Parse response string
         JSONRPC2Response respIn = null;
@@ -154,19 +157,21 @@ public class ClientController {
         URL serverUrl = null;
 
         try {
-            serverUrl = new URL("http://localhost:8080/rpc");
+            serverUrl = new URL(URL);
         } catch (MalformedURLException e) {
             e.printStackTrace();
         }
 
         JSONRPC2Session mySession = new JSONRPC2Session(serverUrl);
-        mySession.getOptions().setAllowedResponseContentTypes(new String[]{"text/html;charset=UTF-8"});
+        mySession.getOptions().setAllowedResponseContentTypes(new String[]{"application/json", "text/html;charset=UTF-8"});
+        mySession.getOptions().setRequestContentType("application/json");
 
         String method = "optimumInterval";
         String id = "req-003";
 
         Map<String, Object> params = new HashMap<String, Object>();
         params.put("interval", text);
+        params.put("idClient", clientId.toString());
 
         JSONRPC2Request reqOut = new JSONRPC2Request(method, params, id);
 

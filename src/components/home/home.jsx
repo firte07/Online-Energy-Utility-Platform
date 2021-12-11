@@ -1,6 +1,11 @@
 import React, {Component} from 'react';
 import { withRouter } from 'react-router-dom';
 import RegistrationService from "../../services/RegistrationService";
+import {tokenSensor} from "../../services/SensorService"
+import {tokenDevice} from "../../services/DeviceService"
+import {tokenClient} from "../../services/ClientService"
+import {tokenAdmin} from "../../services/ClientService"
+import SensorService from "../../services/SensorService";
 
 class Home extends Component {
 
@@ -30,13 +35,19 @@ class Home extends Component {
         let credential = {username: this.state.username, password: this.state.password};
 
         RegistrationService.login(credential).then(res => {
-            if(res.data === 'client'){
+            console.log("Access token: "+res.data.access_token)
+            console.log("Rol: " + res.data.role);
+            if(res.data.role === 'client'){
+                tokenClient.token = res.data.access_token;
                 console.log('Ajunge aici 1  =>' + JSON.stringify(this.state.username));
                 let username = {username: this.state.username}
-                RegistrationService.getIdClient(username).then(res => {
+                RegistrationService.getIdClient(username, res.data.access_token ).then(res => {
                     this.props.history.push('/user/' + res.data);
                 });
-            }else if(res.data === 'admin'){
+            }else if(res.data.role === 'admin'){
+                tokenSensor.token = res.data.access_token;
+                tokenDevice.token = res.data.access_token;
+                tokenAdmin.token  = res.data.access_token;
                 this.props.history.push('/dashboard');
             }else{
                 console.log('Wrong username or pass => ' + JSON.stringify(res.data));

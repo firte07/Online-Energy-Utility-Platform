@@ -87,7 +87,9 @@ public class PersonController {
     }
 
     @PostMapping(value = "/connect-device/{id}")
-    public ResponseEntity<String> connectSensor(@PathVariable("id") UUID clientId, @Valid @RequestBody  String deviceId){
+    public ResponseEntity<String> connectDevice(@PathVariable("id") UUID clientId, @Valid @RequestBody  String deviceId){
+        System.out.println("Device id "+deviceId);
+        System.out.println("Client id" + clientId);
 
         String response = personService.connectClientToDevice(clientId,deviceId);
         return ResponseEntity.ok(response);

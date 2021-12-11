@@ -15,6 +15,7 @@ class User extends Component {
         this.viewChart = this.viewChart.bind(this);
         this.goBack = this.goBack.bind(this);
         this.deleteMonitorings = this.deleteMonitorings.bind(this);
+        this.connect = this.connect.bind(this);
     }
 
     viewHistoryConsumption(){
@@ -27,6 +28,12 @@ class User extends Component {
 
     viewChart(){
         this.props.history.push('/user/chart/' + this.state.id);
+    }
+
+    connect(){
+        ClientService.connect(this.state.id).then(res =>{
+            console.log("Connect successfully");
+        });
     }
 
     deleteMonitorings(){
@@ -49,6 +56,7 @@ class User extends Component {
                         <button className="btn btn-info" onClick={this.viewTodayConsumption} style={{marginLeft: "10px"}}>View today consumption</button>
                         <button className="btn btn-info" onClick={this.viewChart} style={{marginLeft: "10px"}}>View chart</button>
                         <button className="btn btn-danger" onClick={this.deleteMonitorings} style={{marginLeft: "10px"}}>Delete all monitorings</button>
+                        <button className="btn btn-success" onClick={this.connect} style={{marginLeft: "10px"}}>Connect</button>
                         <br/>
                         <br/>
                         <button className="btn btn-danger" onClick={this.goBack}>Log out</button>

@@ -44,6 +44,7 @@ public class MonitoringController {
 
     @GetMapping(value = "/start/{id}")
     public ResponseEntity<String> activateMonitoring(@PathVariable("id") UUID clientId) throws URISyntaxException, KeyManagementException, TimeoutException, NoSuchAlgorithmException, IOException {
+        System.out.println("ID "+ clientId);
         consumer.executeMonitorings(clientId);
         return new ResponseEntity<>("OK", HttpStatus.OK);
     }

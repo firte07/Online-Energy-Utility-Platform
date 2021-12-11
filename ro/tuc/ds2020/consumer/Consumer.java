@@ -44,8 +44,10 @@ public class Consumer {
     public void executeMonitorings(UUID id) throws IOException, TimeoutException, NoSuchAlgorithmException, KeyManagementException, URISyntaxException {
         List<Device> devices = personService.getAllDevices(id);
         Sensor sensor = personService.getSensorByDevice(devices.get(0));
+
         ConnectionFactory factory = new ConnectionFactory();
         ObjectMapper objectMapper = new ObjectMapper();
+
         factory.setHost("rattlesnake.rmq.cloudamqp.com\n");
         factory.setPort(1883);
         factory.setUri("amqps://mzaojrwo:2EmBdThADmNQysvKOP1NG_8fbs3IBvgl@rattlesnake.rmq.cloudamqp.com/mzaojrwo");
@@ -54,7 +56,6 @@ public class Consumer {
         Channel channel = connection.createChannel();
         final int[] i = {0};
         final float[] lastValue = {0};
-
         channel.basicConsume(sensor.getId_sensor().toString(), true, (consumerTag, message) -> {
 
             MonitoringBuffer monitoring = objectMapper.readValue(message.getBody(), MonitoringBuffer.class);

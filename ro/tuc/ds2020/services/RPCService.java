@@ -5,28 +5,43 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
+import ro.tuc.ds2020.entities.Device;
 import ro.tuc.ds2020.entities.Monitoring;
+import ro.tuc.ds2020.entities.Person;
+import ro.tuc.ds2020.entities.Sensor;
+import ro.tuc.ds2020.repositories.DeviceRepository;
 import ro.tuc.ds2020.repositories.MonitoringRepository;
+import ro.tuc.ds2020.repositories.PersonRepository;
 import ro.tuc.ds2020.repositories.SensorRepository;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
 public class RPCService {
     private static final Logger LOGGER = LoggerFactory.getLogger(DeviceService.class);
     private final MonitoringRepository monitoringRepository;
+    private final PersonRepository personRepository;
+    private final DeviceRepository deviceRepository;
+    private final SensorRepository sensorRepository;
 
     @Autowired
-    public RPCService(MonitoringRepository monitoringRepository) {
+    public RPCService(MonitoringRepository monitoringRepository, PersonRepository personRepository,
+                      DeviceRepository deviceRepository,  SensorRepository sensorRepository) {
         this.monitoringRepository = monitoringRepository;
+        this.personRepository = personRepository;
+        this.deviceRepository = deviceRepository;
+        this.sensorRepository = sensorRepository;
     }
 
-    public List<Float> getMonitoringLastSevenDays(){
-        List<Monitoring> monitoringList = monitoringRepository.findAll();
+    public List<Float> getMonitoringLastSevenDays(String clintId){
+        System.out.println("client id: "+ clintId);
+        Optional<Person> person = personRepository.findById(UUID.fromString(clintId));
+        List<Device> device = deviceRepository.findByIdClient(person.get());
+        Sensor sensor = sensorRepository.findByDevice(device.get(0));
+
+        List<Monitoring> monitoringList = monitoringRepository.findBySensor(sensor);
         List<Monitoring> sortedList = monitoringList.stream()
                 .sorted(Comparator.comparing(Monitoring :: getTemp))
                 .collect(Collectors.toList());
@@ -60,8 +75,10 @@ public class RPCService {
         return valuesSevenDays;
     }
 
-    public List<Float> baseline(){
-        List<Float> valuesSevenDays = getMonitoringLastSevenDays();
+    public List<Float> baseline(String clintId){
+        System.out.println("client id: "+ clintId);
+
+        List<Float> valuesSevenDays = getMonitoringLastSevenDays(clintId);
         List<Float> baseline = new ArrayList<>();
 
         float maxHour = 0;
@@ -76,9 +93,11 @@ public class RPCService {
         return baseline;
     }
 
-    public List<Float> optimumInterval(String interval){
+    public List<Float> optimumInterval(String clintId, String interval){
+        System.out.println("client id: "+ clintId);
+
         int intervalValue= Integer.parseInt(interval);
-        List<Float> baseline = baseline();
+        List<Float> baseline = baseline(clintId);
 
 
         float bestValue = 10000000;

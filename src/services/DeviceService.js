@@ -2,34 +2,50 @@ import axios from 'axios';
 import {Host} from '../commons/Host';
 
 const endpoint = {
-    device: '/device',
-    connect: '/connect-sensor'
+    device: 'device',
+    connect: 'connect-sensor/'
+};
+
+export let tokenDevice ={
+    token: ''
 };
 
 class DeviceService{
 
     getDevices(){
-        return axios.get(Host.backend_api+ endpoint.device);
+        const AuthStr = 'Bearer '.concat(tokenDevice.token);
+        return axios.get(Host.backend_api+ endpoint.device,
+            { headers: { Authorization: AuthStr } });
     }
 
     createDevice(deviceToAdd){
-        return axios.post(Host.backend_api+ endpoint.device, deviceToAdd);
+        const AuthStr = 'Bearer '.concat(tokenDevice.token);
+        return axios.post(Host.backend_api+ endpoint.device, deviceToAdd,
+            { headers: { Authorization: AuthStr } });
     }
 
     getDeviceById(deviceId){
-        return axios.get(Host.backend_api + endpoint.device + '/' + deviceId);
+        const AuthStr = 'Bearer '.concat(tokenDevice.token);
+        return axios.get(Host.backend_api + endpoint.device + '/' + deviceId,
+            { headers: { Authorization: AuthStr } });
     }
 
     updateDevice(newDevice, deviceId){
-        return axios.put(Host.backend_api + endpoint.device + '/' + deviceId, newDevice);
+        const AuthStr = 'Bearer '.concat(tokenDevice.token);
+        return axios.put(Host.backend_api + endpoint.device + '/' + deviceId, newDevice,
+            { headers: { Authorization: AuthStr } });
     }
 
     deleteDevice(deviceId){
-         return axios.delete(Host.backend_api + endpoint.device + '/' + deviceId);
+        const AuthStr = 'Bearer '.concat(tokenDevice.token);
+         return axios.delete(Host.backend_api + endpoint.device + '/' + deviceId,
+             { headers: { Authorization: AuthStr } });
     }
 
     connectSensor(deviceId, idSensor){
-        return axios.post(Host.backend_api + endpoint.device +  endpoint.connect + '/' + deviceId, idSensor);
+        const AuthStr = 'Bearer '.concat(tokenDevice.token);
+        return axios.post(Host.backend_api + endpoint.device +  '/' +endpoint.connect  + deviceId, idSensor,
+            { headers: { Authorization: AuthStr } });
     }
 }
 

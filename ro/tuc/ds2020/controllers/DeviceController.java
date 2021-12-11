@@ -67,7 +67,6 @@ public class DeviceController {
 
     @PostMapping(value = "/connect-sensor/{id}")
     public ResponseEntity<String> connectSensor(@PathVariable("id") UUID deviceId, @Valid @RequestBody String sensorId){
-
         String response = deviceService.connectSensorToDevice(deviceId,sensorId);
         return ResponseEntity.ok(response);
 

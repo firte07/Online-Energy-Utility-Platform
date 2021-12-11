@@ -9,6 +9,9 @@ import ro.tuc.ds2020.dtos.CredentialDTO;
 import ro.tuc.ds2020.dtos.PersonDTO;
 import ro.tuc.ds2020.services.CredentialService;
 
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.util.List;
 import java.util.UUID;
@@ -27,8 +30,17 @@ public class LoginController {
         this.credentialService = credentialService;
     }
 
-    @PutMapping()
+    @PostMapping()
     public ResponseEntity<String> executeLogin(@Valid @RequestBody CredentialDTO credentialDTO) {
+        System.out.println("usernm " + credentialDTO.getUsername());
+        System.out.println("pass " + credentialDTO.getPassword());
         return new ResponseEntity<>(credentialService.executeLogin(credentialDTO), HttpStatus.OK);
     }
+
+    /*@GetMapping("/")
+    public void refreshToken(HttpServletRequest request, HttpServletResponse response){
+
+    }*/
+
+
 }
